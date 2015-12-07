@@ -1,6 +1,6 @@
 var canvas = document.getElementById('skifree');
 var context = canvas.getContext('2d');
-// window.addEventListener("keydown", keyPressed, false);
+window.addEventListener("keydown", keyPressed, false);
 
 var Skier = function() {
   this.x = 400;
@@ -10,15 +10,15 @@ var Skier = function() {
 };
 
 Skier.prototype.moveRight = function() {
-  if (this.x < canvas.width) {
-    x++;
+  if (this.x < canvas.width - this.width) {
+    this.x += 3;
   }
   return this;
 };
 
 Skier.prototype.moveLeft = function() {
-  if (this.x > 0) {
-    x--;
+  if (this.x > 3) {
+    this.x -= 3;
   }
   return this;
 };
@@ -30,20 +30,16 @@ Skier.prototype.draw = function() {
 
 var skier = new Skier();
 
-requestAnimationFrame(function gameLoop() {
-  skier.draw();
-});
+function keyPressed(event) {
+  if (event.keyCode == "37") {
+    skier.moveLeft();
+  } else if (event.keyCode == "39") {
+    skier.moveRight();
+  }
+}
 
-// function keyPressed(e) {
-//   if (e.keyCode == "37" || e.keyCode == "39") {
-//     requestAnimationFrame(function gameLoop(e) {
-//       // context.clearRect(0, 0, canvas.width, canvas.height);
-//       if (e.keyCode == "37") {
-//         skier.draw().moveLeft();
-//       } else if (e.keyCode == "39") {
-//         skier.draw().moveRight();
-//       }
-//       requestAnimationFrame(gameLoop);
-//     });
-//   }
-// }
+requestAnimationFrame(function gameLoop() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  skier.draw();
+  requestAnimationFrame(gameLoop);
+});

@@ -45,4 +45,5 @@ describe('Skier', function () {
       assert.isTrue(skier2.x > skier.maxWidth/2);
     });
   });
+
 });

@@ -21,6 +21,7 @@ Skier.prototype.moveLeft = function() {
 };
 
 Skier.prototype.draw = function() {
+  context.fillStyle="black";
   context.fillRect(this.x, this.y, this.width, this.height);
   return this;
 };

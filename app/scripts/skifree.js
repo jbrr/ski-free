@@ -3,6 +3,7 @@ var context = canvas.getContext('2d');
 window.addEventListener("keydown", keyPressed, false);
 
 var skier = new Skier({ maxWidth: canvas.width });
+var tree = new Tree({ maxWidth: canvas.width });
 
 function keyPressed(event) {
   if (event.keyCode == "37") {
@@ -15,5 +16,6 @@ function keyPressed(event) {
 requestAnimationFrame(function gameLoop() {
   context.clearRect(0, 0, canvas.width, canvas.height);
   skier.draw();
+  tree.draw();
   requestAnimationFrame(gameLoop);
 });

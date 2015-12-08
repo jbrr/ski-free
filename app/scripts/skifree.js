@@ -2,7 +2,7 @@ var canvas = document.getElementById('skifree');
 var context = canvas.getContext('2d');
 window.addEventListener("keydown", keyPressed, false);
 
-var skier = new Skier();
+var skier = new Skier({ maxX: canvas.width });
 
 function keyPressed(event) {
   if (event.keyCode == "37") {

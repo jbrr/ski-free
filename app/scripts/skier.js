@@ -1,20 +1,21 @@
-var Skier = function() {
+var Skier = function(options) {
   this.x = 400;
   this.y = 200;
   this.width = 10;
   this.height = 10;
+  this.maxX = options.maxX;
 };
 
 Skier.prototype.moveRight = function() {
-  if (this.x < canvas.width - this.width) {
-    this.x += 3;
+  if (this.x < this.maxX - this.width) {
+    this.x += 5;
   }
   return this;
 };
 
 Skier.prototype.moveLeft = function() {
   if (this.x > 3) {
-    this.x -= 3;
+    this.x -= 5;
   }
   return this;
 };

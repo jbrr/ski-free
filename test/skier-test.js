@@ -2,7 +2,6 @@ const chai = require('chai');
 const assert = chai.assert;
 
 const Skier = require('../app/lib/skier');
-// const Skifree = require('../app/lib/skifree');
 
 describe('Skier', function () {
 

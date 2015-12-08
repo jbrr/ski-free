@@ -1,6 +1,6 @@
 var Skier = function(options) {
-  this.x = 400;
-  this.y = 200;
+  this.x = parseInt(options.maxX)/2;
+  this.y = 150;
   this.width = 10;
   this.height = 10;
   this.maxX = options.maxX;

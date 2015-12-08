@@ -1,13 +1,13 @@
 var Skier = function(options) {
-  this.x = 400;
-  this.y = 200;
+  this.x = options.maxWidth/2;
+  this.y = 150;
   this.width = 10;
   this.height = 10;
-  this.maxX = options.maxX;
+  this.maxWidth = options.maxWidth;
 };
 
 Skier.prototype.moveRight = function() {
-  if (this.x < this.maxX - this.width) {
+  if (this.x < this.maxWidth - this.width) {
     this.x += 5;
   }
   return this;

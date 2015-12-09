@@ -1,12 +1,31 @@
 .game-canvas {
   margin: auto;
-  margin-top: 100px;
   display: block;
   background-color: white;
+  border-style: solid;
+  border-color: #333;
 }
 
 body {
   background-image: url('../images/ski-free.jpg');
   background-size: cover;
   background-position: center;
+}
+
+#logo {
+  color: white;
+  font-size: 55px;
+  display: inline;
+  font-family: 'Damion', cursive;
+  text-shadow: 2px 2px #2C3539;
+}
+
+#skigif {
+  margin-left: 20px;
+  display: inline;
+  width: 40px;
+}
+
+.logo-group {
+  text-align: center;
 }

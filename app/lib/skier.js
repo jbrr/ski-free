@@ -1,10 +1,11 @@
-var Skier = function(options) {
-  this.x = options.maxWidth/2;
+function Skier(options) {
+  this.x = options.canvas.width/2;
   this.y = 150;
   this.width = 10;
   this.height = 10;
-  this.maxWidth = options.maxWidth;
-};
+  this.maxWidth = options.canvas.width;
+  this.context = options.context;
+}
 
 Skier.prototype.moveRight = function() {
   if (this.x < this.maxWidth - this.width) {
@@ -21,6 +22,9 @@ Skier.prototype.moveLeft = function() {
 };
 
 Skier.prototype.draw = function() {
-  context.fillRect(this.x, this.y, this.width, this.height);
+  this.context.fillStyle="black";
+  this.context.fillRect(this.x, this.y, this.width, this.height);
   return this;
 };
+
+module.exports = Skier;

@@ -1,3 +1,3 @@
-const sayHello = () => console.log('Hello');
+var Skifree = require('./skifree');
 
-sayHello();
+new Skifree();

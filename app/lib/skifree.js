@@ -6,8 +6,8 @@ function Skifree () {
   var context = canvas.getContext('2d');
   window.addEventListener("keydown", keyPressed, false);
 
-  var skier = new Skier({ maxWidth: canvas.width });
-  var tree = new Tree({ maxWidth: canvas.width });
+  var skier = new Skier({ canvas: canvas, context: context });
+  var tree = new Tree({ canvas: canvas, context: context });
 
   function keyPressed(event) {
     if (event.keyCode === "37") {

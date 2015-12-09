@@ -4,15 +4,17 @@ var Tree = require('./tree');
 function Skifree () {
   var canvas = document.getElementById('skifree');
   var context = canvas.getContext('2d');
-  window.addEventListener("keydown", keyPressed, false);
+  document.addEventListener("keydown", function(event) {
+    keyPressed(event);
+  }, false);
 
   var skier = new Skier({ canvas: canvas, context: context });
   var tree = new Tree({ canvas: canvas, context: context });
 
   function keyPressed(event) {
-    if (event.keyCode === "37") {
+    if (event.keyCode === 37) {
       skier.moveLeft();
-    } else if (event.keyCode === "39") {
+    } else if (event.keyCode === 39) {
       skier.moveRight();
     }
   }

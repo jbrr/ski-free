@@ -1,5 +1,6 @@
 var Skier = require('./skier');
 var Tree = require('./tree');
+var Rock = require('./rock');
 
 function Skifree () {
   var canvas = document.getElementById('skifree');
@@ -10,6 +11,7 @@ function Skifree () {
 
   var skier = new Skier({ canvas: canvas, context: context });
   var tree = new Tree({ canvas: canvas, context: context });
+  var rock = new Rock({ canvas: canvas, context: context });
 
   function keyPressed(event) {
     if (event.keyCode === 37) {
@@ -23,6 +25,7 @@ function Skifree () {
     context.clearRect(0, 0, canvas.width, canvas.height);
     skier.draw();
     tree.draw();
+    rock.draw();
     requestAnimationFrame(gameLoop);
   });
 }

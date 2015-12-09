@@ -12,7 +12,7 @@ function Skifree () {
   var skier = new Skier({ canvas: canvas, context: context });
   var tree = new Tree({ canvas: canvas, context: context });
   var rock = new Rock({ canvas: canvas, context: context });
-  var bodies = [skier, tree, rock];
+  var obstacles = [tree, rock];
 
   function keyPressed(event) {
     if (event.keyCode === 37) {
@@ -22,19 +22,15 @@ function Skifree () {
     }
   }
 
-  var isColliding = function(b1, b2) {
-    if (b1.x === b2.x && b1.y === b2.y) {
+  var isColliding = function(skier, obstacle) {
+    if (skier.x === obstacle.x && skier.y === obstacle.y) {
       console.log("collision");
     }
   };
 
-  var reportCollisions = function(bodies) {
-    var bodyPairs = [];
-    for (var i = 0; i < bodies.length; i++) {
-      for (var j = i + 1; j < bodies.length; j++) {
-        if (isColliding(bodies[i], bodies[j])) {
-          bodyPairs.push([bodies[i], bodies[j]]);
-        }
+  var reportCollisions = function(obstacles) {
+    for (var i = 0; i < obstacles.length; i++) {
+      if (isColliding(skier, obstacles[i])) {
       }
     }
   };
@@ -44,7 +40,7 @@ function Skifree () {
     skier.draw();
     tree.draw();
     rock.draw();
-    reportCollisions(bodies);
+    reportCollisions(obstacles);
     requestAnimationFrame(gameLoop);
   });
 }

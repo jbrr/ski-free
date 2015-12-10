@@ -1,5 +1,5 @@
 function Tree(options) {
-  this.x = options.canvas.width/2;
+  this.x = Math.floor(Math.random() * options.canvas.width) + 0;
   this.y = 600;
   this.width = 10;
   this.height = 10;

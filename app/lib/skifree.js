@@ -10,9 +10,9 @@ function Skifree () {
   }, false);
 
   var skier = new Skier({ canvas: canvas, context: context });
-  var tree = new Tree({ canvas: canvas, context: context });
+  // var tree = new Tree({ canvas: canvas, context: context });
   var rock = new Rock({ canvas: canvas, context: context });
-  var obstacles = [tree, rock];
+  var obstacles = [];
 
   function keyPressed(event) {
     if (event.keyCode === 37) {
@@ -40,8 +40,17 @@ function Skifree () {
   requestAnimationFrame(function gameLoop() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     skier.draw();
-    tree.draw();
-    rock.draw();
+    if (Math.random() > 0.98) {
+      var tree = new Tree({ canvas: canvas, context: context });
+      obstacles.push(tree);
+    }
+    if (Math.random() > 0.98) {
+      var rock = new Rock({ canvas: canvas, context: context });
+      obstacles.push(rock);
+    }
+    for (var i = 0; i < obstacles.length; i++) {
+      obstacles[i].draw();
+    }
     reportCollisions(obstacles);
     requestAnimationFrame(gameLoop);
   });

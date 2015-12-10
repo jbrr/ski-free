@@ -18,7 +18,13 @@ describe('Rock', function () {
 
   it('should have an X-coordinate', function() {
     let rock = new Rock({ canvas: this.canvas, context: this.context});
-    assert.strictEqual(rock.x, 350);
+    assert.isDefined(rock.x, 'x coordinate has been defined');
+  });
+
+  it('should have a random X-coordinate', function() {
+    let rock1 = new Rock({ canvas: this.canvas, context: this.context });
+    let rock2 = new Rock({ canvas: this.canvas, context: this.context });
+    assert.notStrictEqual(rock1.x, rock2.x);
   });
 
   it('should have a Y-coordinate', function() {

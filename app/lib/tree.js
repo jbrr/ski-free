@@ -7,9 +7,15 @@ function Tree(options) {
   this.context = options.context;
 }
 
-Tree.prototype.draw = function() {
+Tree.prototype.go = function() {
   this.context.fillStyle="green";
   this.context.fillRect(this.x, this.y--, this.width, this.height);
+  return this;
+};
+
+Tree.prototype.stop = function() {
+  this.context.fillStyle="green";
+  this.context.fillRect(this.x, this.y, this.width, this.height);
   return this;
 };
 

@@ -11,6 +11,8 @@ document.addEventListener("keydown", function(event) {
 
 var skier = new Skier({ canvas: canvas, context: ctx });
 var obstacles = [];
+var crashed = false;
+var collisionObstacles = [];
 
 function keyPressed(event) {
   if (event.keyCode === 37) {
@@ -20,11 +22,31 @@ function keyPressed(event) {
   }
 }
 
+function containsObject(obj, list) {
+  var i;
+  for (i = 0; i < list.length; i++) {
+    if (list[i] === obj) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 var isColliding = function(skier, obstacle) {
   var hypotenuse = Math.sqrt(Math.pow((skier.x + skier.width / 2) - (obstacle.x + obstacle.width / 2), 2) +
                     Math.pow(skier.y - obstacle.y, 2));
   if (hypotenuse < skier.height) {
     console.log("collision");
+    crashed = true;
+    if (containsObject(obstacle, collisionObstacles) === false) {
+      collisionObstacles.push(obstacle);
+      skier.lives -= 1;
+      console.log(skier.lives);
+    }
+    setTimeout(function(){
+      crashed = false;
+    }, 1000);
   }
 };
 
@@ -46,7 +68,11 @@ var obstacleGenerator = function() {
 
 var drawObstacles = function() {
   for (var i = 0; i < obstacles.length; i++) {
-    obstacles[i].draw();
+    if (crashed === false) {
+      obstacles[i].go();
+    } else {
+      obstacles[i].stop();
+    }
   }
 };
 

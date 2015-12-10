@@ -5,6 +5,7 @@ function Skier(options) {
   this.height = 10;
   this.maxWidth = options.canvas.width;
   this.context = options.context;
+  this.lives = 5;
 }
 
 Skier.prototype.moveRight = function() {

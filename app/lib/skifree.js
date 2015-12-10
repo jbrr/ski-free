@@ -30,8 +30,7 @@ function Skifree () {
 
   var reportCollisions = function(obstacles) {
     for (var i = 0; i < obstacles.length; i++) {
-      if (isColliding(skier, obstacles[i])) {
-      }
+      isColliding(skier, obstacles[i]);
     }
   };
 

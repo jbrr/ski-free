@@ -10,8 +10,6 @@ function Skifree () {
   }, false);
 
   var skier = new Skier({ canvas: canvas, context: context });
-  // var tree = new Tree({ canvas: canvas, context: context });
-  var rock = new Rock({ canvas: canvas, context: context });
   var obstacles = [];
 
   function keyPressed(event) {
@@ -32,25 +30,30 @@ function Skifree () {
 
   var reportCollisions = function(obstacles) {
     for (var i = 0; i < obstacles.length; i++) {
-      if (isColliding(skier, obstacles[i])) {
-      }
+      isColliding(skier, obstacles[i]);
+    }
+  };
+
+  var obstacleGenerator = function() {
+    if (Math.random() > 0.98) {
+      obstacles.push(new Tree({ canvas: canvas, context: context }));
+    }
+    if (Math.random() > 0.98) {
+      obstacles.push(new Rock({ canvas: canvas, context: context }));
+    }
+    drawObstacles();
+  };
+
+  var drawObstacles = function() {
+    for (var i = 0; i < obstacles.length; i++) {
+      obstacles[i].draw();
     }
   };
 
   requestAnimationFrame(function gameLoop() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     skier.draw();
-    if (Math.random() > 0.98) {
-      var tree = new Tree({ canvas: canvas, context: context });
-      obstacles.push(tree);
-    }
-    if (Math.random() > 0.98) {
-      var rock = new Rock({ canvas: canvas, context: context });
-      obstacles.push(rock);
-    }
-    for (var i = 0; i < obstacles.length; i++) {
-      obstacles[i].draw();
-    }
+    obstacleGenerator();
     reportCollisions(obstacles);
     requestAnimationFrame(gameLoop);
   });

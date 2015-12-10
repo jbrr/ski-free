@@ -18,7 +18,13 @@ describe('Tree', function () {
 
   it('should have an X-coordinate', function() {
     let tree = new Tree({ canvas: this.canvas, context: this.context});
-    assert.strictEqual(tree.x, 300);
+    assert.isDefined(tree.x, 'x coordinate has been defined');
+  });
+
+  it('should have a random X-coordinate', function() {
+    let tree1 = new Tree({ canvas: this.canvas, context: this.context });
+    let tree2 = new Tree({ canvas: this.canvas, context: this.context });
+    assert.notStrictEqual(tree1.x, tree2.x);
   });
 
   it('should have a Y-coordinate', function() {

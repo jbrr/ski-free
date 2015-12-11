@@ -2,7 +2,7 @@
 var Skier = require('./skier');
 var Tree = require('./tree');
 var Rock = require('./rock');
-var arrayContainsObject = require('./array-contains-object');
+var isColliding = require('./is-colliding');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
@@ -12,8 +12,6 @@ document.addEventListener("keydown", function(event) {
 
 var skier = new Skier({ canvas: canvas, context: ctx });
 var obstacles = [];
-var crashed = false;
-var collisionObstacles = [];
 
 function keyPressed(event) {
   if (event.keyCode === 37) {
@@ -22,24 +20,6 @@ function keyPressed(event) {
     skier.moveRight();
   }
 }
-
-var isColliding = function(skier, obstacle) {
-  var hypotenuse = Math.sqrt(Math.pow((skier.x + skier.width / 2) - (obstacle.x + obstacle.width / 2), 2) +
-                    Math.pow(skier.y - obstacle.y, 2));
-  if (hypotenuse < skier.height) {
-    console.log("collision");
-    crashed = true;
-    if (arrayContainsObject(obstacle, collisionObstacles) === false) {
-      collisionObstacles.push(obstacle);
-      skier.lives -= 1;
-      console.log(skier.lives);
-    }
-
-    document.onkeyup=function(){
-      crashed = false;
-    };
-  }
-};
 
 var reportCollisions = function(obstacles) {
   for (var i = 0; i < obstacles.length; i++) {
@@ -59,7 +39,7 @@ var obstacleGenerator = function() {
 
 var drawObstacles = function() {
   for (var i = 0; i < obstacles.length; i++) {
-    if (crashed === false) {
+    if (skier.crashed === false) {
       obstacles[i].go();
     } else {
       obstacles[i].stop();

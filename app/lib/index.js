@@ -44,9 +44,10 @@ var isColliding = function(skier, obstacle) {
       skier.lives -= 1;
       console.log(skier.lives);
     }
-    setTimeout(function(){
+
+    document.onkeyup=function(){
       crashed = false;
-    }, 1000);
+    };
   }
 };
 

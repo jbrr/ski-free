@@ -42,4 +42,19 @@ describe('Tree', function () {
     assert.strictEqual(tree.height, 10);
   });
 
+  it('should be able to go', function() {
+    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    var originalY = tree.y;
+    tree.go();
+
+    assert.strictEqual(tree.y, originalY - 1);
+  });
+
+  it('should be able to stop', function () {
+    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    var originalY = tree.y;
+    tree.stop();
+
+    assert.strictEqual(tree.y, originalY);
+  });
 });

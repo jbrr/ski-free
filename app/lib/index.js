@@ -5,14 +5,10 @@ var obstacleGenerator = require('./obstacle-generator');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
-document.addEventListener("keydown", function(event) {
-  keyPressed(event);
-}, false);
+var spriteMapImg = new Image();
+spriteMapImg.src = 'https://s3.amazonaws.com/jbrr-turing/assets/spritemap.png';
 
-var skier = new Skier({ canvas: canvas, context: ctx });
-var obstacles = [];
-
-function keyPressed(event) {
+function keyPressed(event, skier) {
   if (event.keyCode === 37) {
     skier.moveLeft();
   } else if (event.keyCode === 39) {
@@ -20,10 +16,25 @@ function keyPressed(event) {
   }
 }
 
-requestAnimationFrame(function gameLoop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  skier.draw();
-  obstacleGenerator(obstacles, skier, canvas, ctx);
-  reportCollisions(obstacles, skier);
-  requestAnimationFrame(gameLoop);
-});
+var start = function(skier, obstacles, spriteMapImg) {
+  requestAnimationFrame(function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    skier.draw(spriteMapImg);
+    obstacleGenerator(obstacles, skier, canvas, ctx);
+    reportCollisions(obstacles, skier);
+    requestAnimationFrame(gameLoop);
+  });
+};
+
+function init() {
+  document.addEventListener("keydown", function(event) {
+    keyPressed(event, skier);
+  }, false);
+
+  var skier = new Skier({ canvas: canvas, context: ctx });
+  var obstacles = [];
+
+  start(skier, obstacles);
+}
+
+init();

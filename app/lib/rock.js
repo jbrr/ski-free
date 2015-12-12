@@ -7,9 +7,15 @@ function Rock(options) {
   this.context = options.context;
 }
 
-Rock.prototype.draw = function() {
+Rock.prototype.go = function() {
   this.context.fillStyle="grey";
   this.context.fillRect(this.x, this.y--, this.width, this.height);
+  return this;
+};
+
+Rock.prototype.stop = function() {
+  this.context.fillStyle="grey";
+  this.context.fillRect(this.x, this.y, this.width, this.height);
   return this;
 };
 

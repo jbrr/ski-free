@@ -36,6 +36,11 @@ describe('Skier', function () {
     assert.strictEqual(skier.height, 10);
   });
 
+  it('should have five lives', function() {
+    let skier = new Skier({ canvas: this.canvas, context: this.context});
+    assert.strictEqual(skier.lives, 5);
+  });
+
   describe('moveLeft', function() {
     it('should move the skier left', function() {
       let skier = new Skier({ canvas: this.canvas, context: this.context});

@@ -1,3 +1,7 @@
-require('./skier-test.js');
-require('./tree-test.js');
-require('./rock-test.js');
+require('./skier-test');
+require('./tree-test');
+require('./rock-test');
+require('./array-contains-object-test');
+require('./is-colliding-test');
+require('./hypotenuse-test');
+require('./obstacle-generator-test');

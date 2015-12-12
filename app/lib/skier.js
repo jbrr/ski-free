@@ -7,6 +7,7 @@ function Skier(options) {
   this.context = options.context;
   this.lives = 5;
   this.crashed = false;
+  this.distance = 0;
 }
 
 Skier.prototype.moveRight = function() {

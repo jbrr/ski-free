@@ -12,12 +12,12 @@ describe('Tree', function () {
   });
 
   it('should be an object', function() {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     assert.isObject(tree);
   });
 
   it('should have an X-coordinate', function() {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     assert.isDefined(tree.x, 'x coordinate has been defined');
   });
 
@@ -28,22 +28,22 @@ describe('Tree', function () {
   });
 
   it('should have a Y-coordinate', function() {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     assert.strictEqual(tree.y, 600);
   });
 
   it('should have a width', function() {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     assert.strictEqual(tree.width, 10);
   });
 
   it('should have a height', function() {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     assert.strictEqual(tree.height, 10);
   });
 
   it('should be able to go', function() {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     var originalY = tree.y;
     tree.go();
 
@@ -51,7 +51,7 @@ describe('Tree', function () {
   });
 
   it('should be able to stop', function () {
-    let tree = new Tree({ canvas: this.canvas, context: this.context});
+    let tree = new Tree({ canvas: this.canvas, context: this.context });
     var originalY = tree.y;
     tree.stop();
 

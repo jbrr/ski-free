@@ -1,8 +1,7 @@
 
 var Skier = require('./skier');
-var Tree = require('./tree');
-var Rock = require('./rock');
 var reportCollisions = require('./collision');
+var obstacleGenerator = require('./obstacle-generator');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
@@ -21,30 +20,10 @@ function keyPressed(event) {
   }
 }
 
-var obstacleGenerator = function() {
-  if (Math.random() > 0.98) {
-    obstacles.push(new Tree({ canvas: canvas, context: ctx }));
-  }
-  if (Math.random() > 0.98) {
-    obstacles.push(new Rock({ canvas: canvas, context: ctx }));
-  }
-  drawObstacles();
-};
-
-var drawObstacles = function() {
-  for (var i = 0; i < obstacles.length; i++) {
-    if (skier.crashed === false) {
-      obstacles[i].go();
-    } else {
-      obstacles[i].stop();
-    }
-  }
-};
-
 requestAnimationFrame(function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   skier.draw();
-  obstacleGenerator();
+  obstacleGenerator(obstacles, skier, canvas, ctx);
   reportCollisions(obstacles, skier);
   requestAnimationFrame(gameLoop);
 });

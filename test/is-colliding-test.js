@@ -11,7 +11,6 @@ describe('isColliding', function() {
     this.canvas.width = 600;
     this.canvas.height = 500;
     this.context = this.canvas.getContext('2d');
-
   });
 
   it('should report if there is a collision', function() {

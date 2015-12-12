@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 
-var arrayContainsObject = require('../app/lib/array-contains-object');
+var arrayContainsObject = require('../app/lib/collision/array-contains-object');
 
 describe('ArrayContainsObject', function() {
   it('should return true if object is in array', function() {

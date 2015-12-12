@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 
-var isColliding = require('../app/lib/is-colliding');
+var isColliding = require('../app/lib/collision/is-colliding');
 const Skier = require('../app/lib/skier');
 const Tree = require('../app/lib/tree');
 
@@ -26,6 +26,7 @@ describe('isColliding', function() {
 
     assert.strictEqual(skier.crashed, true);
   });
+
   it('should report if there is no collision', function() {
     var skier = new Skier({ canvas: this.canvas, context: this.context });
     var obstacle = new Tree({ canvas: this.canvas, context: this.context });

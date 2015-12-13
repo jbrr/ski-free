@@ -2,7 +2,7 @@
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
-var yetiGenerator = require('./yeti-generator');
+var yetiEnding = require('./yeti-generator');
 var Yeti = require('./yeti');
 
 var canvas = document.getElementById('skifree');
@@ -24,7 +24,7 @@ var start = function(skier, yeti, obstacles, spriteMapImg) {
     skier.draw(spriteMapImg);
     obstacleGenerator(obstacles, skier, canvas, ctx);
     reportCollisions(obstacles, skier);
-    yetiGenerator(skier, yeti);
+    yetiEnding(skier, yeti);
     requestAnimationFrame(gameLoop);
   });
 };

@@ -20,8 +20,11 @@ function keyPressed(event, skier) {
 }
 
 var stopCheck = function(skier, yeti) {
-  if ((yeti.x === skier.x && yeti.y === skier.y) || skier.lives === 0) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+  if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
+    skier.lives = 0;
+  }
+  if (skier.lives === 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
   }
 };
@@ -35,7 +38,6 @@ var start = function(skier, yeti, obstacles, spriteMapImg) {
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti);
       stopCheck(skier, yeti);
-      console.log(stopped);
       requestAnimationFrame(gameLoop);
     });
   }

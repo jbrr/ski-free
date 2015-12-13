@@ -56,12 +56,20 @@ function init() {
   displayDivs('game-over', 'none');
 }
 
-function displayDivs(div, style) {
-  document.getElementById(div).style.display = style;
-}
-
 function gameOver() {
   displayDivs('game-over', 'inline');
 }
 
-init();
+function freshGame() {
+  displayDivs('starter', 'inline');
+  displayDivs('game-over', 'none');
+  document.getElementById('start-button').onclick = function(){
+    init();
+  };
+}
+
+function displayDivs(div, style) {
+  document.getElementById(div).style.display = style;
+}
+
+freshGame();

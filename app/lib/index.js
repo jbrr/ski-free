@@ -2,7 +2,7 @@
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
-var yetiEnding = require('./yeti-generator');
+var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
 
 var canvas = document.getElementById('skifree');

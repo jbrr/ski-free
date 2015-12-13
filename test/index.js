@@ -7,3 +7,4 @@ require('./hypotenuse-test');
 require('./obstacle-generator-test');
 require('./draw-obstacles-test');
 require('./yeti-test');
+require('./yeti-ending-test');

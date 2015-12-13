@@ -8,10 +8,6 @@
   border-color: #333;
 }
 
-.hidden {
-  display: none;
-}
-
 body {
   background: url('../images/mountain.jpeg') no-repeat center center fixed;
   background-size: cover;
@@ -52,6 +48,24 @@ body {
 
 .logo-group {
   text-align: center;
+}
+
+#game-over {
+  width: 600px;
+  height: 500px;
+  z-index: 1;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-color: rgba(12, 20, 31, .7);
+  text-align: center;
+}
+
+#game-over h1 {
+  margin-top: 50px;
+  font-size: 50px;
+  color: white;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
 }
 
 #audio {

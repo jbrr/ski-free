@@ -52,19 +52,12 @@ function init() {
   var skier = new Skier({ canvas: canvas, context: ctx });
   var obstacles = [];
   start(skier, yeti, obstacles);
+  document.getElementById('starter').style.display = 'none';
+  document.getElementById('game-over').style.display = 'none';
 }
 
-function toggled(id) {
-  var element = document.getElementById(id);
-  if (element.style.display === 'block' || element.style.display === '') {
-    element.style.display = 'none';
-  } else {
-    element.style.display = 'block';
-  }
-}
-
-function gameOver(id) {
-  toggled(id);
+function gameOver() {
+  document.getElementById('game-over').style.display = 'inline';
 }
 
 init();

@@ -52,12 +52,16 @@ function init() {
   var skier = new Skier({ canvas: canvas, context: ctx });
   var obstacles = [];
   start(skier, yeti, obstacles);
-  document.getElementById('starter').style.display = 'none';
-  document.getElementById('game-over').style.display = 'none';
+  displayDivs('starter', 'none');
+  displayDivs('game-over', 'none');
+}
+
+function displayDivs(div, style) {
+  document.getElementById(div).style.display = style;
 }
 
 function gameOver() {
-  document.getElementById('game-over').style.display = 'inline';
+  displayDivs('game-over', 'inline');
 }
 
 init();

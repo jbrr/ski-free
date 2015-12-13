@@ -19,13 +19,14 @@ function keyPressed(event, skier) {
   }
 }
 
-var stopCheck = function(skier, yeti) {
+var stopper = function(skier, yeti) {
   if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
     skier.lives = 0;
   }
   if (skier.lives === 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
+    gameOver();
   }
 };
 
@@ -37,12 +38,11 @@ var start = function(skier, yeti, obstacles, spriteMapImg) {
       obstacleGenerator(obstacles, skier, canvas, ctx);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti);
-      stopCheck(skier, yeti);
+      stopper(skier, yeti);
       requestAnimationFrame(gameLoop);
     });
   }
 };
-
 
 function init() {
   document.addEventListener("keydown", function(event) {
@@ -52,6 +52,19 @@ function init() {
   var skier = new Skier({ canvas: canvas, context: ctx });
   var obstacles = [];
   start(skier, yeti, obstacles);
+}
+
+function toggled(id) {
+  var element = document.getElementById(id);
+  if (element.style.display === 'block' || element.style.display === '') {
+    element.style.display = 'none';
+  } else {
+    element.style.display = 'block';
+  }
+}
+
+function gameOver(id) {
+  toggled(id);
 }
 
 init();

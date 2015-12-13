@@ -1,15 +1,21 @@
 .game-canvas {
   margin: auto;
-  display: block;
+  /*display: block;*/
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
   background-color: white;
   border-style: solid;
   border-color: #333;
 }
 
-body {
-  background-image: url('../images/ski-free.jpg');
+.hidden {
+  display: none;
+}
+
+html {
+  background: url('../images/ski-free.jpg') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
+  /*background-position: center;*/
 }
 
 #logo {
@@ -24,6 +30,7 @@ body {
   margin-left: 20px;
   display: inline;
   width: 40px;
+  text-shadow: 2px 2px #2C3539;
 }
 
 .logo-group {
@@ -31,6 +38,9 @@ body {
 }
 
 #audio {
+  position: absolute;
   text-align: center;
-  margin-top: 20px;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
 }

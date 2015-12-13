@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- <script src="https://code.jquery.com/jquery-2.1.4.js"></script> -->
   <meta charset="utf-8">
   <title>Ski Free</title>
   <link href='https://fonts.googleapis.com/css?family=Damion' rel='stylesheet' type='text/css'>  <link href="app/stylesheets/skifree.css" rel="stylesheet">
@@ -11,13 +12,24 @@
     <img src="app/images/skifree.gif" alt="Snowman" id="skigif">
   </div>
 
+  <div id="starter">
+    <h1>Click 'Start' to begin</h1>
+  </div>
+
+  <div id="button">
+    <h1 onclick="toggled('hidden')">GAME OVER</h1>
+  </div>
+  <div id="hidden">
+    <p>hidden stuff</p>
+  </div>
+
   <div id="game-board">
     <canvas id="skifree"
             class="game-canvas"
             width="600px"
             height="500px"></canvas>
   </div>
-  
+
   <div id="audio">
     <audio src="app/song/afterglow.mp3" autoplay controls loop></audio>
   </div>

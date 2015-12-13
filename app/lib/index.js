@@ -1,3 +1,4 @@
+const $ = require('jquery');
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
@@ -7,6 +8,7 @@ var Yeti = require('./yeti');
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
 var stopped = false;
+var scores = [];
 var spriteMapImg = new Image();
 spriteMapImg.src = 'https://s3.amazonaws.com/jbrr-turing/assets/spritemap.png';
 
@@ -25,13 +27,15 @@ var stopper = function(skier, yeti) {
   if (skier.lives === 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
-    gameOver();
+    scores.push(Math.floor(skier.distance));
+    skier.distance = 0;
+    gameOver(scores);
   }
 };
 
 var start = function(skier, yeti, obstacles, spriteMapImg) {
-  if (stopped === false) {
-    requestAnimationFrame(function gameLoop() {
+  requestAnimationFrame(function gameLoop() {
+    if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       skier.draw(spriteMapImg);
       obstacleGenerator(obstacles, skier, canvas, ctx);
@@ -39,8 +43,8 @@ var start = function(skier, yeti, obstacles, spriteMapImg) {
       yetiEnding(skier, yeti);
       stopper(skier, yeti);
       requestAnimationFrame(gameLoop);
-    });
-  }
+    }
+  });
 };
 
 function init() {
@@ -55,8 +59,16 @@ function init() {
   displayDivs('game-over', 'none');
 }
 
-function gameOver() {
+function gameOver(scores) {
   displayDivs('game-over', 'inline');
+  for (var i = 0; i < scores.length; i++) {
+    $('#top-scores').append(
+      '<li>' + scores[i] + '</li>'
+    );
+  }
+  document.getElementById('restart-button').onclick = function(){
+    init();
+  };
 }
 
 function freshGame() {

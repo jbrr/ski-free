@@ -54,6 +54,7 @@ function init() {
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });
   var obstacles = [];
+  stopped = false;
   start(skier, yeti, obstacles);
   displayDivs('starter', 'none');
   displayDivs('game-over', 'none');

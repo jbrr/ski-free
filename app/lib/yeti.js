@@ -3,7 +3,7 @@ function Yeti(options) {
   this.y = 10;
   this.width = 10;
   this.height = 10;
-  this.aggresive = false;
+  this.aggressive = false;
   this.context = options.context;
 }
 

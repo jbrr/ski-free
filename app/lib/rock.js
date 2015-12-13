@@ -1,21 +1,39 @@
 function Rock(options) {
   this.x = Math.floor(Math.random() * options.canvas.width) + 0;
   this.y = 600;
-  this.width = 10;
-  this.height = 10;
+  this.width = 23;
+  this.height = 11;
   this.maxWidth = options.canvas.width;
   this.context = options.context;
 }
 
-Rock.prototype.go = function() {
-  this.context.fillStyle="grey";
-  this.context.fillRect(this.x, this.y--, this.width, this.height);
+Rock.prototype.go = function(obstaclesImg) {
+  this.context.drawImage(
+    obstaclesImg,
+    30,
+    52,
+    23,
+    11,
+    this.x,
+    this.y--,
+    this.width,
+    this.height
+  );
   return this;
 };
 
-Rock.prototype.stop = function() {
-  this.context.fillStyle="grey";
-  this.context.fillRect(this.x, this.y, this.width, this.height);
+Rock.prototype.stop = function(obstaclesImg) {
+  this.context.drawImage(
+    obstaclesImg,
+    30,
+    52,
+    23,
+    11,
+    this.x,
+    this.y,
+    this.width,
+    this.height
+  );
   return this;
 };
 

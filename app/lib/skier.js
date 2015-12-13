@@ -25,7 +25,6 @@ Skier.prototype.moveLeft = function() {
 };
 
 Skier.prototype.draw = function(skierImg) {
-
   this.context.drawImage(
     skierImg,
     65,
@@ -38,7 +37,6 @@ Skier.prototype.draw = function(skierImg) {
     this.height
   );
   return this;
-
 };
 
 module.exports = Skier;

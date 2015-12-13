@@ -31,12 +31,12 @@ var stopper = function(skier, yeti) {
   }
 };
 
-var start = function(skier, yeti, obstacles, skierImg) {
+var start = function(skier, yeti, obstacles, skierImg, obstaclesImg) {
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       skier.draw(skierImg);
-      obstacleGenerator(obstacles, skier, canvas, ctx);
+      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti);
       stopper(skier, yeti);
@@ -54,7 +54,9 @@ function init() {
   var obstacles = [];
   var skierImg = new Image();
   skierImg.src = 'images/sprites.png';
-  start(skier, yeti, obstacles, skierImg);
+  var obstaclesImg = new Image();
+  obstaclesImg.src = 'images/skifree-objects.png';
+  start(skier, yeti, obstacles, skierImg, obstaclesImg);
   displayDivs('starter', 'none');
   displayDivs('game-over', 'none');
 }

@@ -7,6 +7,7 @@ var Yeti = require('./yeti');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
+var stopped = false;
 var spriteMapImg = new Image();
 spriteMapImg.src = 'https://s3.amazonaws.com/jbrr-turing/assets/spritemap.png';
 
@@ -18,16 +19,28 @@ function keyPressed(event, skier) {
   }
 }
 
-var start = function(skier, yeti, obstacles, spriteMapImg) {
-  requestAnimationFrame(function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    skier.draw(spriteMapImg);
-    obstacleGenerator(obstacles, skier, canvas, ctx);
-    reportCollisions(obstacles, skier);
-    yetiEnding(skier, yeti);
-    requestAnimationFrame(gameLoop);
-  });
+var stopCheck = function(skier, yeti) {
+  if ((yeti.x === skier.x && yeti.y === skier.y) || skier.lives === 0) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    stopped = true;
+  }
 };
+
+var start = function(skier, yeti, obstacles, spriteMapImg) {
+  if (stopped === false) {
+    requestAnimationFrame(function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      skier.draw(spriteMapImg);
+      obstacleGenerator(obstacles, skier, canvas, ctx);
+      reportCollisions(obstacles, skier);
+      yetiEnding(skier, yeti);
+      stopCheck(skier, yeti);
+      console.log(stopped);
+      requestAnimationFrame(gameLoop);
+    });
+  }
+};
+
 
 function init() {
   document.addEventListener("keydown", function(event) {

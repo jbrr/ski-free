@@ -31,6 +31,17 @@ body {
   font-family: 'Yanone Kaffeesatz', sans-serif;
 }
 
+#start-button {
+  height: 55px;
+  width: 150px;
+  border: solid 2px white;
+  color: white;
+  background-color: rgba(12, 20, 31, .3);
+  font-size: 40px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  box-shadow: 2px 2px 2px #2C3539;
+}
+
 #logo {
   color: white;
   font-size: 55px;

@@ -1,4 +1,3 @@
-
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');

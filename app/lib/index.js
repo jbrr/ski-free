@@ -2,6 +2,8 @@
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
+var yetiGenerator = require('./yeti-generator');
+var Yeti = require('./yeti');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
@@ -16,12 +18,13 @@ function keyPressed(event, skier) {
   }
 }
 
-var start = function(skier, obstacles, spriteMapImg) {
+var start = function(skier, yeti, obstacles, spriteMapImg) {
   requestAnimationFrame(function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     skier.draw(spriteMapImg);
     obstacleGenerator(obstacles, skier, canvas, ctx);
     reportCollisions(obstacles, skier);
+    yetiGenerator(skier, yeti);
     requestAnimationFrame(gameLoop);
   });
 };
@@ -30,11 +33,10 @@ function init() {
   document.addEventListener("keydown", function(event) {
     keyPressed(event, skier);
   }, false);
-
+  var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });
   var obstacles = [];
-
-  start(skier, obstacles);
+  start(skier, yeti, obstacles);
 }
 
 init();

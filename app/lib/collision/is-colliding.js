@@ -11,7 +11,7 @@ var isColliding = function(skier, obstacle) {
       console.log(skier.lives);
     }
 
-    document.onkeyup=function(){
+    document.onkeydown=function(){
       skier.crashed = false;
     };
   }

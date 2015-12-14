@@ -38,7 +38,7 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg) {
       skier.draw(skierImg);
       obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg);
       reportCollisions(obstacles, skier);
-      yetiEnding(skier, yeti);
+      yetiEnding(skier, yeti, skierImg);
       stopper(skier, yeti);
       requestAnimationFrame(gameLoop);
     }

@@ -15,7 +15,7 @@ Tree.prototype.go = function(obstaclesImg) {
     30,
     34,
     this.x,
-    this.y--,
+    this.y -= 3.5,
     this.width,
     this.height
   );

@@ -8,6 +8,8 @@ function Skier(options) {
   this.lives = 5;
   this.crashed = false;
   this.distance = 0;
+  this.turningLeft = false;
+  this.turningRight = false;
 }
 
 Skier.prototype.moveRight = function() {
@@ -36,6 +38,30 @@ Skier.prototype.draw = function(skierImg, skier) {
       this.y,
       31,
       31
+    );
+  } else if (skier.turningLeft) {
+    this.context.drawImage(
+      skierImg,
+      49,
+      37,
+      17,
+      34,
+      this.x,
+      this.y,
+      17,
+      34
+    );
+  } else if (skier.turningRight) {
+    this.context.drawImage(
+      skierImg,
+      49,
+      0,
+      17,
+      34,
+      this.x,
+      this.y,
+      17,
+      34
     );
   } else {
     this.context.drawImage(

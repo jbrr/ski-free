@@ -13,8 +13,20 @@ var scores = [];
 
 function keyPressed(event, skier) {
   if (event.keyCode === 37) {
+    skier.turningLeft = true;
     skier.moveLeft();
   } else if (event.keyCode === 39) {
+    skier.turningRight = true;
+    skier.moveRight();
+  }
+}
+
+function keyReleased(event, skier) {
+  if (event.keyCode === 37) {
+    skier.turningLeft = false;
+    skier.moveLeft();
+  } else if (event.keyCode === 39) {
+    skier.turningRight = false;
     skier.moveRight();
   }
 }
@@ -55,6 +67,9 @@ function scoreBoard(skier) {
 function init() {
   document.addEventListener('keydown', function(event) {
     keyPressed(event, skier);
+  }, false);
+  document.addEventListener('keyup', function(event) {
+    keyReleased(event, skier);
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });

@@ -31,22 +31,29 @@ var stopper = function(skier, yeti) {
   }
 };
 
-var start = function(skier, yeti, obstacles, skierImg, obstaclesImg) {
+var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed) {
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       skier.draw(skierImg);
-      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg);
+      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
       stopper(skier, yeti);
+      scoreBoard(skier);
       requestAnimationFrame(gameLoop);
     }
   });
 };
 
+function scoreBoard(skier) {
+  $('#score-board').html(
+    '<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'm</p></div>'
+  );
+}
+
 function init() {
-  document.addEventListener("keydown", function(event) {
+  document.addEventListener('keydown', function(event) {
     keyPressed(event, skier);
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
@@ -56,14 +63,17 @@ function init() {
   skierImg.src = 'images/sprites.png';
   var obstaclesImg = new Image();
   obstaclesImg.src = 'images/skifree-objects.png';
-  start(skier, yeti, obstacles, skierImg, obstaclesImg);
+  var increasedSpeed = 0;
+  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed);
   stopped = false;
   displayDivs('starter', 'none');
   displayDivs('game-over', 'none');
+  displayDivs('score-board', 'inline');
 }
 
 function gameOver(scores) {
   displayDivs('game-over', 'inline');
+  displayDivs('score-board', 'none');
   $('#top-scores').html("");
   for (var i = 0; i < scores.length; i++) {
     $('#top-scores').append(
@@ -78,6 +88,7 @@ function gameOver(scores) {
 function freshGame() {
   displayDivs('starter', 'inline');
   displayDivs('game-over', 'none');
+  displayDivs('score-board', 'none');
   document.getElementById('start-button').onclick = function(){
     init();
   };

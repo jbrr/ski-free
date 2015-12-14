@@ -50,7 +50,7 @@ describe('isColliding', function() {
 
     assert.strictEqual(skier.crashed, false);
 
-    obstacle.y = skier.y - skier.width + 1;
+    obstacle.y = skier.y - skier.width + 2;
     isColliding(skier, obstacle);
 
     assert.strictEqual(skier.crashed, true);

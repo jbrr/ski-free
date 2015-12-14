@@ -1,21 +1,39 @@
 function Tree(options) {
   this.x = Math.floor(Math.random() * options.canvas.width) + 0;
   this.y = 600;
-  this.width = 10;
-  this.height = 10;
+  this.width = 30;
+  this.height = 34;
   this.maxWidth = options.canvas.width;
   this.context = options.context;
 }
 
-Tree.prototype.go = function() {
-  this.context.fillStyle="green";
-  this.context.fillRect(this.x, this.y--, this.width, this.height);
+Tree.prototype.go = function(obstaclesImg) {
+  this.context.drawImage(
+    obstaclesImg,
+    0,
+    28,
+    30,
+    34,
+    this.x,
+    this.y--,
+    this.width,
+    this.height
+  );
   return this;
 };
 
-Tree.prototype.stop = function() {
-  this.context.fillStyle="green";
-  this.context.fillRect(this.x, this.y, this.width, this.height);
+Tree.prototype.stop = function(obstaclesImg) {
+  this.context.drawImage(
+    obstaclesImg,
+    0,
+    28,
+    30,
+    34,
+    this.x,
+    this.y,
+    this.width,
+    this.height
+  );
   return this;
 };
 

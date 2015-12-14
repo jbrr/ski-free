@@ -1,8 +1,8 @@
 function Skier(options) {
   this.x = options.canvas.width/2;
   this.y = 150;
-  this.width = 10;
-  this.height = 10;
+  this.width = 17;
+  this.height = 35;
   this.maxWidth = options.canvas.width;
   this.context = options.context;
   this.lives = 5;
@@ -24,21 +24,19 @@ Skier.prototype.moveLeft = function() {
   return this;
 };
 
-Skier.prototype.draw = function(spriteMapImg) {
-
-  var spriteMap = {
-    'down': {'x': 0, 'y': 0},
-    'left': {'x': 16, 'y': 0},
-    'right': {'x': 32, 'y': 0},
-    'fullLeft': {'x': 48, 'y': 0},
-    'fullRight': {'x': 64, 'y': 0},
-    'crashed': {'x': 80, 'y': 0}
-  };
-
-  this.context.fillStyle="black";
-  this.context.fillRect(this.x, this.y, this.width, this.height);
+Skier.prototype.draw = function(skierImg) {
+  this.context.drawImage(
+    skierImg,
+    65,
+    0,
+    17,
+    34,
+    this.x,
+    this.y,
+    this.width,
+    this.height
+  );
   return this;
-
 };
 
 module.exports = Skier;

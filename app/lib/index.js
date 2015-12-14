@@ -9,8 +9,6 @@ var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
 var stopped = false;
 var scores = [];
-var spriteMapImg = new Image();
-spriteMapImg.src = 'https://s3.amazonaws.com/jbrr-turing/assets/spritemap.png';
 
 function keyPressed(event, skier) {
   if (event.keyCode === 37) {
@@ -33,14 +31,14 @@ var stopper = function(skier, yeti) {
   }
 };
 
-var start = function(skier, yeti, obstacles, spriteMapImg) {
+var start = function(skier, yeti, obstacles, skierImg, obstaclesImg) {
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      skier.draw(spriteMapImg);
-      obstacleGenerator(obstacles, skier, canvas, ctx);
+      skier.draw(skierImg);
+      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg);
       reportCollisions(obstacles, skier);
-      yetiEnding(skier, yeti);
+      yetiEnding(skier, yeti, skierImg);
       stopper(skier, yeti);
       requestAnimationFrame(gameLoop);
     }
@@ -54,8 +52,12 @@ function init() {
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });
   var obstacles = [];
+  var skierImg = new Image();
+  skierImg.src = 'images/sprites.png';
+  var obstaclesImg = new Image();
+  obstaclesImg.src = 'images/skifree-objects.png';
+  start(skier, yeti, obstacles, skierImg, obstaclesImg);
   stopped = false;
-  start(skier, yeti, obstacles);
   displayDivs('starter', 'none');
   displayDivs('game-over', 'none');
 }

@@ -9,6 +9,8 @@ describe('Rock', function () {
     this.canvas.width = 600;
     this.canvas.height = 500;
     this.context = this.canvas.getContext('2d');
+    this.image = new Image ();
+    this.image.src = 'images/skifree-objects.png';
   });
 
   it('should be an object', function() {
@@ -34,18 +36,18 @@ describe('Rock', function () {
 
   it('should have a width', function() {
     var rock = new Rock({ canvas: this.canvas, context: this.context });
-    assert.strictEqual(rock.width, 10);
+    assert.ok(rock.width);
   });
 
   it('should have a height', function() {
     var rock = new Rock({ canvas: this.canvas, context: this.context });
-    assert.strictEqual(rock.height, 10);
+    assert.ok(rock.height);
   });
 
   it('should be able to go', function() {
     var rock = new Rock({ canvas: this.canvas, context: this.context });
     var originalY = rock.y;
-    rock.go();
+    rock.go(this.image);
 
     assert.strictEqual(rock.y, originalY - 1);
   });
@@ -53,7 +55,7 @@ describe('Rock', function () {
   it('should be able to stop', function () {
     var rock = new Rock({ canvas: this.canvas, context: this.context });
     var originalY = rock.y;
-    rock.stop();
+    rock.stop(this.image);
 
     assert.strictEqual(rock.y, originalY);
   });

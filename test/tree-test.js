@@ -9,6 +9,8 @@ describe('Tree', function () {
     this.canvas.width = 600;
     this.canvas.height = 500;
     this.context = this.canvas.getContext('2d');
+    this.image = new Image ();
+    this.image.src = 'images/skifree-objects.png';
   });
 
   it('should be an object', function() {
@@ -34,18 +36,18 @@ describe('Tree', function () {
 
   it('should have a width', function() {
     let tree = new Tree({ canvas: this.canvas, context: this.context });
-    assert.strictEqual(tree.width, 10);
+    assert.ok(tree.width);
   });
 
   it('should have a height', function() {
     let tree = new Tree({ canvas: this.canvas, context: this.context });
-    assert.strictEqual(tree.height, 10);
+    assert.ok(tree.height);
   });
 
   it('should be able to go', function() {
     let tree = new Tree({ canvas: this.canvas, context: this.context });
     var originalY = tree.y;
-    tree.go();
+    tree.go(this.image);
 
     assert.strictEqual(tree.y, originalY - 1);
   });
@@ -53,7 +55,7 @@ describe('Tree', function () {
   it('should be able to stop', function () {
     let tree = new Tree({ canvas: this.canvas, context: this.context });
     var originalY = tree.y;
-    tree.stop();
+    tree.stop(this.image);
 
     assert.strictEqual(tree.y, originalY);
   });

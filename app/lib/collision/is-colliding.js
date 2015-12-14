@@ -9,7 +9,7 @@ var isColliding = function(skier, obstacle) {
       collisionObstacles.push(obstacle);
       skier.lives -= 1;
     }
-    document.onkeyup=function(){
+    document.onkeydown=function(){
       skier.crashed = false;
     };
   }

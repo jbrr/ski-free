@@ -46,10 +46,11 @@ describe('Tree', function () {
 
   it('should be able to go', function() {
     let tree = new Tree({ canvas: this.canvas, context: this.context });
+    var increasedSpeed = 0;
     var originalY = tree.y;
-    tree.go(this.image);
+    tree.go(this.image, increasedSpeed);
 
-    assert.strictEqual(tree.y, originalY - 3.5);
+    assert.strictEqual(tree.y, originalY - (3.5 + increasedSpeed));
   });
 
   it('should be able to stop', function () {

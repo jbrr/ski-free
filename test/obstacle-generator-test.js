@@ -18,10 +18,11 @@ describe('obstacleGenerator', function() {
     var ctx = this.context;
     var skier = new Skier({ canvas: canvas, context: ctx });
     var image = new Image ();
+    var increasedSpeed = 0;
     image.src = 'images/skifree-objects.png';
     (function doLotsOfTimes(count) {
       if (count < 1000) {
-        obstacleGenerator(obstacles, skier, canvas, ctx, image);
+        obstacleGenerator(obstacles, skier, canvas, ctx, image, increasedSpeed);
         count += 1;
         doLotsOfTimes(count);
       }

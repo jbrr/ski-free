@@ -19,9 +19,10 @@ describe('drawObstacles', function() {
     var skier = new Skier({ canvas: this.canvas, context: this.context });
     var tree = new Tree({ canvas: this.canvas, context: this.context });
     var obstacles = [];
+    var increasedSpeed = 0;
     obstacles.push(tree);
     var originalY = obstacles[0].y;
-    drawObstacles(obstacles, skier, this.image);
+    drawObstacles(obstacles, skier, this.image, increasedSpeed);
 
     assert.isBelow(obstacles[0].y, originalY);
   });
@@ -30,9 +31,10 @@ describe('drawObstacles', function() {
     var skier = new Skier({ canvas: this.canvas, context: this.context });
     var tree = new Tree({ canvas: this.canvas, context: this.context });
     var obstacles = [];
+    var increasedSpeed = 0;
     obstacles.push(tree);
     var originalDistance = skier.distance;
-    drawObstacles(obstacles, skier, this.image);
+    drawObstacles(obstacles, skier, this.image, increasedSpeed);
 
     assert.isAbove(skier.distance, originalDistance);
   });

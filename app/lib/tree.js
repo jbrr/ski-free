@@ -7,7 +7,7 @@ function Tree(options) {
   this.context = options.context;
 }
 
-Tree.prototype.go = function(obstaclesImg) {
+Tree.prototype.go = function(obstaclesImg, increasedSpeed) {
   this.context.drawImage(
     obstaclesImg,
     0,
@@ -15,7 +15,7 @@ Tree.prototype.go = function(obstaclesImg) {
     30,
     34,
     this.x,
-    this.y -= 3.5,
+    this.y -= (3.5 + increasedSpeed),
     this.width,
     this.height
   );

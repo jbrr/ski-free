@@ -7,7 +7,7 @@ function Rock(options) {
   this.context = options.context;
 }
 
-Rock.prototype.go = function(obstaclesImg) {
+Rock.prototype.go = function(obstaclesImg, increasedSpeed) {
   this.context.drawImage(
     obstaclesImg,
     30,
@@ -15,7 +15,7 @@ Rock.prototype.go = function(obstaclesImg) {
     23,
     11,
     this.x,
-    this.y -= 3.5,
+    this.y -= (3.5 + increasedSpeed),
     this.width,
     this.height
   );

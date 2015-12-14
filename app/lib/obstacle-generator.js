@@ -3,10 +3,10 @@ var Rock = require('./rock');
 var drawObstacles = require('./draw-obstacles');
 
 var obstacleGenerator = function(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed) {
-  if (Math.random() > (0.96 - increasedSpeed/150)) {
+  if (Math.random() > (0.96 - increasedSpeed/100)) {
     obstacles.push(new Tree({ canvas: canvas, context: ctx }));
   }
-  if (Math.random() > (0.96 - increasedSpeed/150)) {
+  if (Math.random() > (0.96 - increasedSpeed/100)) {
     obstacles.push(new Rock({ canvas: canvas, context: ctx }));
   }
   drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed);

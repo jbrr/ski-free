@@ -25,7 +25,7 @@ Skier.prototype.moveLeft = function() {
 };
 
 Skier.prototype.draw = function(skierImg, skier) {
-  if (skier.crashed === true) {
+  if (skier.crashed) {
     this.context.drawImage(
       skierImg,
       0,

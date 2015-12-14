@@ -3,7 +3,7 @@ var yetiEnding = function(skier, yeti, skierImg) {
     yeti.aggressive = true;
   }
 
-  if (yeti.aggressive === true) {
+  if (yeti.aggressive) {
     yeti.attack(skier, skierImg);
   }
 };

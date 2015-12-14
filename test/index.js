@@ -8,3 +8,4 @@ require('./obstacle-generator-test');
 require('./draw-obstacles-test');
 require('./yeti-test');
 require('./yeti-ending-test');
+require('./top-scores-test');

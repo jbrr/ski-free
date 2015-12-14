@@ -24,18 +24,32 @@ Skier.prototype.moveLeft = function() {
   return this;
 };
 
-Skier.prototype.draw = function(skierImg) {
-  this.context.drawImage(
-    skierImg,
-    65,
-    0,
-    17,
-    34,
-    this.x,
-    this.y,
-    this.width,
-    this.height
-  );
+Skier.prototype.draw = function(skierImg, skier) {
+  if (skier.crashed === true) {
+    this.context.drawImage(
+      skierImg,
+      0,
+      78,
+      31,
+      31,
+      this.x,
+      this.y,
+      31,
+      31
+    );
+  } else {
+    this.context.drawImage(
+      skierImg,
+      65,
+      0,
+      17,
+      34,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+  }
   return this;
 };
 

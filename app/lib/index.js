@@ -35,7 +35,7 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      skier.draw(skierImg);
+      skier.draw(skierImg, skier);
       obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);

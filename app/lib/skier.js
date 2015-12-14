@@ -8,6 +8,8 @@ function Skier(options) {
   this.lives = 5;
   this.crashed = false;
   this.distance = 0;
+  this.turningLeft = false;
+  this.turningRight = false;
 }
 
 Skier.prototype.moveRight = function() {
@@ -24,18 +26,56 @@ Skier.prototype.moveLeft = function() {
   return this;
 };
 
-Skier.prototype.draw = function(skierImg) {
-  this.context.drawImage(
-    skierImg,
-    65,
-    0,
-    17,
-    34,
-    this.x,
-    this.y,
-    this.width,
-    this.height
-  );
+Skier.prototype.draw = function(skierImg, skier) {
+  if (skier.crashed) {
+    this.context.drawImage(
+      skierImg,
+      0,
+      78,
+      31,
+      31,
+      this.x,
+      this.y,
+      31,
+      31
+    );
+  } else if (skier.turningLeft) {
+    this.context.drawImage(
+      skierImg,
+      49,
+      37,
+      17,
+      34,
+      this.x,
+      this.y,
+      17,
+      34
+    );
+  } else if (skier.turningRight) {
+    this.context.drawImage(
+      skierImg,
+      49,
+      0,
+      17,
+      34,
+      this.x,
+      this.y,
+      17,
+      34
+    );
+  } else {
+    this.context.drawImage(
+      skierImg,
+      65,
+      0,
+      17,
+      34,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+  }
   return this;
 };
 

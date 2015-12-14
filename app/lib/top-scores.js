@@ -3,7 +3,7 @@ var topScores = function(skier, scores) {
   scores.sort(function(a, b) {
     return b - a;
   });
-  scores.slice(0, 5);
+  scores.splice(5, scores.length - 5);
 };
 
 module.exports = topScores;

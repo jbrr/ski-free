@@ -52,8 +52,10 @@ describe('Yeti', function () {
   it('should be able to move towards the skier', function() {
     var yeti = new Yeti({ canvas: this.canvas, context: this.context });
     var skier = new Skier({ canvas: this.canvas, context: this.context });
+    var image = new Image ();
+    image.src = 'images/sprites.png';
     var originalDistance = hypotenuse(skier, yeti);
-    yeti.attack(skier);
+    yeti.attack(skier, image);
 
     assert.isBelow(hypotenuse(skier, yeti), originalDistance);
   });

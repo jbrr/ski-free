@@ -11,6 +11,8 @@ describe('drawObstacles', function() {
     this.canvas.width = 600;
     this.canvas.height = 500;
     this.context = this.canvas.getContext('2d');
+    this.image = new Image ();
+    this.image.src = 'images/skifree-objects.png';
   });
 
   it('should increment obstacle if the skier is not crashed', function() {
@@ -19,7 +21,7 @@ describe('drawObstacles', function() {
     var obstacles = [];
     obstacles.push(tree);
     var originalY = obstacles[0].y;
-    drawObstacles(obstacles, skier);
+    drawObstacles(obstacles, skier, this.image);
 
     assert.isBelow(obstacles[0].y, originalY);
   });
@@ -30,7 +32,7 @@ describe('drawObstacles', function() {
     var obstacles = [];
     obstacles.push(tree);
     var originalDistance = skier.distance;
-    drawObstacles(obstacles, skier);
+    drawObstacles(obstacles, skier, this.image);
 
     assert.isAbove(skier.distance, originalDistance);
   });
@@ -42,7 +44,7 @@ describe('drawObstacles', function() {
     skier.crashed = true;
     obstacles.push(tree);
     var originalY = obstacles[0].y;
-    drawObstacles(obstacles, skier);
+    drawObstacles(obstacles, skier, this.image);
 
     assert.strictEqual(obstacles[0].y, originalY);
   });
@@ -54,7 +56,7 @@ describe('drawObstacles', function() {
     skier.crashed = true;
     obstacles.push(tree);
     var originalDistance = skier.distance;
-    drawObstacles(obstacles, skier);
+    drawObstacles(obstacles, skier, this.image);
 
     assert.strictEqual(skier.distance, originalDistance);
   });

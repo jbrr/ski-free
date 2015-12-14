@@ -22,7 +22,7 @@ var stopper = function(skier, yeti) {
   if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
     skier.lives = 0;
   }
-  if (skier.lives === 0) {
+  if (skier.lives <= 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
     scores.push(Math.floor(skier.distance));

@@ -15,7 +15,7 @@ Rock.prototype.go = function(obstaclesImg) {
     23,
     11,
     this.x,
-    this.y--,
+    this.y -= 3.5,
     this.width,
     this.height
   );

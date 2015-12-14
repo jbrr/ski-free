@@ -50,8 +50,9 @@
 	var Skier = __webpack_require__(2);
 	var reportCollisions = __webpack_require__(3);
 	var obstacleGenerator = __webpack_require__(8);
-	var yetiEnding = __webpack_require__(12);
-	var Yeti = __webpack_require__(13);
+	var topScores = __webpack_require__(12);
+	var yetiEnding = __webpack_require__(13);
+	var Yeti = __webpack_require__(14);
 
 	var canvas = document.getElementById('skifree');
 	var ctx = canvas.getContext('2d');
@@ -60,8 +61,20 @@
 
 	function keyPressed(event, skier) {
 	  if (event.keyCode === 37) {
+	    skier.turningLeft = true;
 	    skier.moveLeft();
 	  } else if (event.keyCode === 39) {
+	    skier.turningRight = true;
+	    skier.moveRight();
+	  }
+	}
+
+	function keyReleased(event, skier) {
+	  if (event.keyCode === 37) {
+	    skier.turningLeft = false;
+	    skier.moveLeft();
+	  } else if (event.keyCode === 39) {
+	    skier.turningRight = false;
 	    skier.moveRight();
 	  }
 	}
@@ -70,32 +83,39 @@
 	  if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
 	    skier.lives = 0;
 	  }
-	  if (skier.lives === 0) {
+	  if (skier.lives <= 0) {
 	    ctx.clearRect(0, 0, canvas.width, canvas.height);
 	    stopped = true;
-	    scores.push(Math.floor(skier.distance));
-	    console.log('score amount: ' + scores.length);
+	    topScores(skier, scores);
 	    gameOver(scores);
 	  }
 	};
 
-	var start = function start(skier, yeti, obstacles, skierImg, obstaclesImg) {
+	var start = function start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed) {
 	  requestAnimationFrame(function gameLoop() {
 	    if (stopped === false) {
 	      ctx.clearRect(0, 0, canvas.width, canvas.height);
-	      skier.draw(skierImg);
-	      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg);
+	      skier.draw(skierImg, skier);
+	      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
 	      reportCollisions(obstacles, skier);
 	      yetiEnding(skier, yeti, skierImg);
 	      stopper(skier, yeti);
+	      scoreBoard(skier);
 	      requestAnimationFrame(gameLoop);
 	    }
 	  });
 	};
 
+	function scoreBoard(skier) {
+	  $('#score-board').html('<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'm</p></div>');
+	}
+
 	function init() {
-	  document.addEventListener("keydown", function (event) {
+	  document.addEventListener('keydown', function (event) {
 	    keyPressed(event, skier);
+	  }, false);
+	  document.addEventListener('keyup', function (event) {
+	    keyReleased(event, skier);
 	  }, false);
 	  var yeti = new Yeti({ canvas: canvas, context: ctx });
 	  var skier = new Skier({ canvas: canvas, context: ctx });
@@ -104,14 +124,17 @@
 	  skierImg.src = 'images/sprites.png';
 	  var obstaclesImg = new Image();
 	  obstaclesImg.src = 'images/skifree-objects.png';
-	  start(skier, yeti, obstacles, skierImg, obstaclesImg);
+	  var increasedSpeed = 0;
+	  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed);
 	  stopped = false;
 	  displayDivs('starter', 'none');
 	  displayDivs('game-over', 'none');
+	  displayDivs('score-board', 'inline');
 	}
 
 	function gameOver(scores) {
 	  displayDivs('game-over', 'inline');
+	  displayDivs('score-board', 'none');
 	  $('#top-scores').html("");
 	  for (var i = 0; i < scores.length; i++) {
 	    $('#top-scores').append('<li>' + scores[i] + '</li>');
@@ -124,6 +147,7 @@
 	function freshGame() {
 	  displayDivs('starter', 'inline');
 	  displayDivs('game-over', 'none');
+	  displayDivs('score-board', 'none');
 	  document.getElementById('start-button').onclick = function () {
 	    init();
 	  };
@@ -9367,6 +9391,8 @@
 	  this.lives = 5;
 	  this.crashed = false;
 	  this.distance = 0;
+	  this.turningLeft = false;
+	  this.turningRight = false;
 	}
 
 	Skier.prototype.moveRight = function () {
@@ -9383,8 +9409,16 @@
 	  return this;
 	};
 
-	Skier.prototype.draw = function (skierImg) {
-	  this.context.drawImage(skierImg, 65, 0, 17, 34, this.x, this.y, this.width, this.height);
+	Skier.prototype.draw = function (skierImg, skier) {
+	  if (skier.crashed) {
+	    this.context.drawImage(skierImg, 0, 78, 31, 31, this.x, this.y, 31, 31);
+	  } else if (skier.turningLeft) {
+	    this.context.drawImage(skierImg, 49, 37, 17, 34, this.x, this.y, 17, 34);
+	  } else if (skier.turningRight) {
+	    this.context.drawImage(skierImg, 49, 0, 17, 34, this.x, this.y, 17, 34);
+	  } else {
+	    this.context.drawImage(skierImg, 65, 0, 17, 34, this.x, this.y, this.width, this.height);
+	  }
 	  return this;
 	};
 
@@ -9432,10 +9466,8 @@
 	    if (arrayContainsObject(obstacle, collisionObstacles) === false) {
 	      collisionObstacles.push(obstacle);
 	      skier.lives -= 1;
-	      console.log(skier.lives);
 	    }
-
-	    document.onkeyup = function () {
+	    document.onkeydown = function () {
 	      skier.crashed = false;
 	    };
 	  }
@@ -9483,14 +9515,14 @@
 	var Rock = __webpack_require__(10);
 	var drawObstacles = __webpack_require__(11);
 
-	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg) {
-	  if (Math.random() > 0.98) {
+	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed) {
+	  if (Math.random() > 0.96 - increasedSpeed / 100 && !skier.crashed) {
 	    obstacles.push(new Tree({ canvas: canvas, context: ctx }));
 	  }
-	  if (Math.random() > 0.98) {
+	  if (Math.random() > 0.96 - increasedSpeed / 100 && !skier.crashed) {
 	    obstacles.push(new Rock({ canvas: canvas, context: ctx }));
 	  }
-	  drawObstacles(obstacles, skier, obstaclesImg);
+	  drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed);
 	};
 
 	module.exports = obstacleGenerator;
@@ -9510,8 +9542,8 @@
 	  this.context = options.context;
 	}
 
-	Tree.prototype.go = function (obstaclesImg) {
-	  this.context.drawImage(obstaclesImg, 0, 28, 30, 34, this.x, this.y--, this.width, this.height);
+	Tree.prototype.go = function (obstaclesImg, increasedSpeed) {
+	  this.context.drawImage(obstaclesImg, 0, 28, 30, 34, this.x, this.y -= 3.5 + increasedSpeed, this.width, this.height);
 	  return this;
 	};
 
@@ -9537,8 +9569,8 @@
 	  this.context = options.context;
 	}
 
-	Rock.prototype.go = function (obstaclesImg) {
-	  this.context.drawImage(obstaclesImg, 30, 52, 23, 11, this.x, this.y--, this.width, this.height);
+	Rock.prototype.go = function (obstaclesImg, increasedSpeed) {
+	  this.context.drawImage(obstaclesImg, 30, 52, 23, 11, this.x, this.y -= 3.5 + increasedSpeed, this.width, this.height);
 	  return this;
 	};
 
@@ -9555,11 +9587,12 @@
 
 	"use strict";
 
-	var drawObstacles = function drawObstacles(obstacles, skier, obstaclesImg) {
+	var drawObstacles = function drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed) {
 	  for (var i = 0; i < obstacles.length; i++) {
 	    if (skier.crashed === false) {
-	      obstacles[i].go(obstaclesImg);
-	      skier.distance += 0.3;
+	      obstacles[i].go(obstaclesImg, increasedSpeed);
+	      increasedSpeed += 0.02;
+	      skier.distance += 0.05 + increasedSpeed / 450;
 	    } else {
 	      obstacles[i].stop(obstaclesImg);
 	    }
@@ -9574,12 +9607,28 @@
 
 	"use strict";
 
+	var topScores = function topScores(skier, scores) {
+	  scores.push(Math.floor(skier.distance));
+	  scores.sort(function (a, b) {
+	    return b - a;
+	  });
+	  scores.splice(5, scores.length - 5);
+	};
+
+	module.exports = topScores;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	"use strict";
+
 	var yetiEnding = function yetiEnding(skier, yeti, skierImg) {
-	  if (skier.distance > 4000 && Math.random() > 0.995) {
+	  if (skier.distance > 10000 && Math.random() > 0.9995) {
 	    yeti.aggressive = true;
 	  }
 
-	  if (yeti.aggressive === true) {
+	  if (yeti.aggressive) {
 	    yeti.attack(skier, skierImg);
 	  }
 	};
@@ -9587,7 +9636,7 @@
 	module.exports = yetiEnding;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9602,7 +9651,7 @@
 	}
 
 	Yeti.prototype.attack = function (skier, skierImg) {
-	  this.context.drawImage(skierImg, 0, 112, 32, 43, this.x, this.y, this.height, this.width);
+	  this.context.drawImage(skierImg, 0, 113, 32, 41, this.x, this.y, this.height, this.width);
 	  this.rotation = Math.atan2(skier.y - this.y, skier.x - this.x);
 	  this.x += Math.cos(this.rotation);
 	  this.y += Math.sin(this.rotation);

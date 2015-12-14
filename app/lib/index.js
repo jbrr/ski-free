@@ -26,7 +26,7 @@ var stopper = function(skier, yeti) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
     scores.push(Math.floor(skier.distance));
-    skier.distance = 0;
+    console.log('score amount: ' + scores.length);
     gameOver(scores);
   }
 };
@@ -57,12 +57,14 @@ function init() {
   var obstaclesImg = new Image();
   obstaclesImg.src = 'images/skifree-objects.png';
   start(skier, yeti, obstacles, skierImg, obstaclesImg);
+  stopped = false;
   displayDivs('starter', 'none');
   displayDivs('game-over', 'none');
 }
 
 function gameOver(scores) {
   displayDivs('game-over', 'inline');
+  $('#top-scores').html("");
   for (var i = 0; i < scores.length; i++) {
     $('#top-scores').append(
       '<li>' + scores[i] + '</li>'

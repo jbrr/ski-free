@@ -8,10 +8,8 @@ var isColliding = function(skier, obstacle) {
     if (arrayContainsObject(obstacle, collisionObstacles) === false) {
       collisionObstacles.push(obstacle);
       skier.lives -= 1;
-      console.log(skier.lives);
     }
-
-    document.onkeyup=function(){
+    document.onkeydown=function(){
       skier.crashed = false;
     };
   }

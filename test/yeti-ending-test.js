@@ -16,10 +16,12 @@ describe('yetiEnding', function() {
   it('should set the yeti to aggressive under the right circumstances', function() {
     var yeti = new Yeti({ canvas: this.canvas, context: this.context });
     var skier = new Skier({ canvas: this.canvas, context: this.context });
-    skier.distance = 10000;
+    var image = new Image();
+    image.src = 'images/sprites.png';
+    skier.distance = 30500;
     (function doLotsOfTimes(count) {
       if (count < 10000) {
-        yetiEnding(skier, yeti);
+        yetiEnding(skier, yeti, image);
         count += 1;
         doLotsOfTimes(count);
       }

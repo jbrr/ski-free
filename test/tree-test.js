@@ -49,7 +49,7 @@ describe('Tree', function () {
     var originalY = tree.y;
     tree.go(this.image);
 
-    assert.strictEqual(tree.y, originalY - 1);
+    assert.strictEqual(tree.y, originalY - 3.5);
   });
 
   it('should be able to stop', function () {

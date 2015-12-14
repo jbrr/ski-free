@@ -49,7 +49,7 @@ describe('Rock', function () {
     var originalY = rock.y;
     rock.go(this.image);
 
-    assert.strictEqual(rock.y, originalY - 1);
+    assert.strictEqual(rock.y, originalY - 3.5);
   });
 
   it('should be able to stop', function () {

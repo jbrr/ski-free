@@ -18,7 +18,7 @@ describe('yetiEnding', function() {
     var skier = new Skier({ canvas: this.canvas, context: this.context });
     var image = new Image();
     image.src = 'images/sprites.png';
-    skier.distance = 10000;
+    skier.distance = 30500;
     (function doLotsOfTimes(count) {
       if (count < 10000) {
         yetiEnding(skier, yeti, image);

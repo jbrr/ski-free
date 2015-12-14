@@ -168,14 +168,14 @@
 	var Rock = __webpack_require__(10);
 	var drawObstacles = __webpack_require__(11);
 
-	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg) {
-	  if (Math.random() > 0.98) {
+	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed) {
+	  if (Math.random() > 0.96 - increasedSpeed / 100) {
 	    obstacles.push(new Tree({ canvas: canvas, context: ctx }));
 	  }
-	  if (Math.random() > 0.98) {
+	  if (Math.random() > 0.96 - increasedSpeed / 100) {
 	    obstacles.push(new Rock({ canvas: canvas, context: ctx }));
 	  }
-	  drawObstacles(obstacles, skier, obstaclesImg);
+	  drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed);
 	};
 
 	module.exports = obstacleGenerator;
@@ -195,8 +195,8 @@
 	  this.context = options.context;
 	}
 
-	Tree.prototype.go = function (obstaclesImg) {
-	  this.context.drawImage(obstaclesImg, 0, 28, 30, 34, this.x, this.y--, this.width, this.height);
+	Tree.prototype.go = function (obstaclesImg, increasedSpeed) {
+	  this.context.drawImage(obstaclesImg, 0, 28, 30, 34, this.x, this.y -= 3.5 + increasedSpeed, this.width, this.height);
 	  return this;
 	};
 
@@ -222,8 +222,8 @@
 	  this.context = options.context;
 	}
 
-	Rock.prototype.go = function (obstaclesImg) {
-	  this.context.drawImage(obstaclesImg, 30, 52, 23, 11, this.x, this.y--, this.width, this.height);
+	Rock.prototype.go = function (obstaclesImg, increasedSpeed) {
+	  this.context.drawImage(obstaclesImg, 30, 52, 23, 11, this.x, this.y -= 3.5 + increasedSpeed, this.width, this.height);
 	  return this;
 	};
 
@@ -240,11 +240,12 @@
 
 	"use strict";
 
-	var drawObstacles = function drawObstacles(obstacles, skier, obstaclesImg) {
+	var drawObstacles = function drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed) {
 	  for (var i = 0; i < obstacles.length; i++) {
 	    if (skier.crashed === false) {
-	      obstacles[i].go(obstaclesImg);
-	      skier.distance += 0.3;
+	      obstacles[i].go(obstaclesImg, increasedSpeed);
+	      increasedSpeed += 0.02;
+	      skier.distance += 0.05 + increasedSpeed / 450;
 	    } else {
 	      obstacles[i].stop(obstaclesImg);
 	    }
@@ -260,7 +261,7 @@
 	"use strict";
 
 	var yetiEnding = function yetiEnding(skier, yeti, skierImg) {
-	  if (skier.distance > 4000 && Math.random() > 0.995) {
+	  if (skier.distance > 15000 && Math.random() > 0.9995) {
 	    yeti.aggressive = true;
 	  }
 
@@ -320,8 +321,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/jbrr/turing/module-4/projects/ski-free/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/jbrr/turing/module-4/projects/ski-free/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/jbrr/turing/module-4/projects/ski-free/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/jbrr/turing/module-4/projects/ski-free/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/rosekohn/turing/m4/ski-free/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/rosekohn/turing/m4/ski-free/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/rosekohn/turing/m4/ski-free/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/rosekohn/turing/m4/ski-free/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -633,12 +634,12 @@
 
 	  it('should have a width', function () {
 	    var skier = new Skier({ canvas: this.canvas, context: this.context });
-	    assert.strictEqual(skier.width, 10);
+	    assert.ok(skier.width);
 	  });
 
 	  it('should have a height', function () {
 	    var skier = new Skier({ canvas: this.canvas, context: this.context });
-	    assert.strictEqual(skier.height, 10);
+	    assert.ok(skier.height);
 	  });
 
 	  it('should have five lives', function () {
@@ -8476,6 +8477,8 @@
 	    this.canvas.width = 600;
 	    this.canvas.height = 500;
 	    this.context = this.canvas.getContext('2d');
+	    this.image = new Image();
+	    this.image.src = 'images/skifree-objects.png';
 	  });
 
 	  it('should be an object', function () {
@@ -8501,26 +8504,27 @@
 
 	  it('should have a width', function () {
 	    var tree = new Tree({ canvas: this.canvas, context: this.context });
-	    assert.strictEqual(tree.width, 10);
+	    assert.ok(tree.width);
 	  });
 
 	  it('should have a height', function () {
 	    var tree = new Tree({ canvas: this.canvas, context: this.context });
-	    assert.strictEqual(tree.height, 10);
+	    assert.ok(tree.height);
 	  });
 
 	  it('should be able to go', function () {
 	    var tree = new Tree({ canvas: this.canvas, context: this.context });
+	    var increasedSpeed = 0;
 	    var originalY = tree.y;
-	    tree.go();
+	    tree.go(this.image, increasedSpeed);
 
-	    assert.strictEqual(tree.y, originalY - 1);
+	    assert.strictEqual(tree.y, originalY - (3.5 + increasedSpeed));
 	  });
 
 	  it('should be able to stop', function () {
 	    var tree = new Tree({ canvas: this.canvas, context: this.context });
 	    var originalY = tree.y;
-	    tree.stop();
+	    tree.stop(this.image);
 
 	    assert.strictEqual(tree.y, originalY);
 	  });
@@ -8543,6 +8547,8 @@
 	    this.canvas.width = 600;
 	    this.canvas.height = 500;
 	    this.context = this.canvas.getContext('2d');
+	    this.image = new Image();
+	    this.image.src = 'images/skifree-objects.png';
 	  });
 
 	  it('should be an object', function () {
@@ -8568,26 +8574,27 @@
 
 	  it('should have a width', function () {
 	    var rock = new Rock({ canvas: this.canvas, context: this.context });
-	    assert.strictEqual(rock.width, 10);
+	    assert.ok(rock.width);
 	  });
 
 	  it('should have a height', function () {
 	    var rock = new Rock({ canvas: this.canvas, context: this.context });
-	    assert.strictEqual(rock.height, 10);
+	    assert.ok(rock.height);
 	  });
 
 	  it('should be able to go', function () {
 	    var rock = new Rock({ canvas: this.canvas, context: this.context });
 	    var originalY = rock.y;
-	    rock.go();
+	    var increasedSpeed = 0;
+	    rock.go(this.image, increasedSpeed);
 
-	    assert.strictEqual(rock.y, originalY - 1);
+	    assert.strictEqual(rock.y, originalY - (3.5 + increasedSpeed));
 	  });
 
 	  it('should be able to stop', function () {
 	    var rock = new Rock({ canvas: this.canvas, context: this.context });
 	    var originalY = rock.y;
-	    rock.stop();
+	    rock.stop(this.image);
 
 	    assert.strictEqual(rock.y, originalY);
 	  });
@@ -8681,7 +8688,7 @@
 
 	    assert.strictEqual(skier.crashed, false);
 
-	    obstacle.y = skier.y - skier.width + 1;
+	    obstacle.y = skier.y - skier.width + 2;
 	    isColliding(skier, obstacle);
 
 	    assert.strictEqual(skier.crashed, true);
@@ -8733,9 +8740,12 @@
 	    var canvas = this.canvas;
 	    var ctx = this.context;
 	    var skier = new Skier({ canvas: canvas, context: ctx });
+	    var image = new Image();
+	    var increasedSpeed = 0;
+	    image.src = 'images/skifree-objects.png';
 	    (function doLotsOfTimes(count) {
 	      if (count < 1000) {
-	        obstacleGenerator(obstacles, skier, canvas, ctx);
+	        obstacleGenerator(obstacles, skier, canvas, ctx, image, increasedSpeed);
 	        count += 1;
 	        doLotsOfTimes(count);
 	      }
@@ -8763,15 +8773,18 @@
 	    this.canvas.width = 600;
 	    this.canvas.height = 500;
 	    this.context = this.canvas.getContext('2d');
+	    this.image = new Image();
+	    this.image.src = 'images/skifree-objects.png';
 	  });
 
 	  it('should increment obstacle if the skier is not crashed', function () {
 	    var skier = new Skier({ canvas: this.canvas, context: this.context });
 	    var tree = new Tree({ canvas: this.canvas, context: this.context });
 	    var obstacles = [];
+	    var increasedSpeed = 0;
 	    obstacles.push(tree);
 	    var originalY = obstacles[0].y;
-	    drawObstacles(obstacles, skier);
+	    drawObstacles(obstacles, skier, this.image, increasedSpeed);
 
 	    assert.isBelow(obstacles[0].y, originalY);
 	  });
@@ -8780,9 +8793,10 @@
 	    var skier = new Skier({ canvas: this.canvas, context: this.context });
 	    var tree = new Tree({ canvas: this.canvas, context: this.context });
 	    var obstacles = [];
+	    var increasedSpeed = 0;
 	    obstacles.push(tree);
 	    var originalDistance = skier.distance;
-	    drawObstacles(obstacles, skier);
+	    drawObstacles(obstacles, skier, this.image, increasedSpeed);
 
 	    assert.isAbove(skier.distance, originalDistance);
 	  });
@@ -8794,7 +8808,7 @@
 	    skier.crashed = true;
 	    obstacles.push(tree);
 	    var originalY = obstacles[0].y;
-	    drawObstacles(obstacles, skier);
+	    drawObstacles(obstacles, skier, this.image);
 
 	    assert.strictEqual(obstacles[0].y, originalY);
 	  });
@@ -8806,7 +8820,7 @@
 	    skier.crashed = true;
 	    obstacles.push(tree);
 	    var originalDistance = skier.distance;
-	    drawObstacles(obstacles, skier);
+	    drawObstacles(obstacles, skier, this.image);
 
 	    assert.strictEqual(skier.distance, originalDistance);
 	  });
@@ -8872,8 +8886,10 @@
 	  it('should be able to move towards the skier', function () {
 	    var yeti = new Yeti({ canvas: this.canvas, context: this.context });
 	    var skier = new Skier({ canvas: this.canvas, context: this.context });
+	    var image = new Image();
+	    image.src = 'images/sprites.png';
 	    var originalDistance = hypotenuse(skier, yeti);
-	    yeti.attack(skier);
+	    yeti.attack(skier, image);
 
 	    assert.isBelow(hypotenuse(skier, yeti), originalDistance);
 	  });
@@ -8903,10 +8919,12 @@
 	  it('should set the yeti to aggressive under the right circumstances', function () {
 	    var yeti = new Yeti({ canvas: this.canvas, context: this.context });
 	    var skier = new Skier({ canvas: this.canvas, context: this.context });
-	    skier.distance = 10000;
+	    var image = new Image();
+	    image.src = 'images/sprites.png';
+	    skier.distance = 30500;
 	    (function doLotsOfTimes(count) {
 	      if (count < 10000) {
-	        yetiEnding(skier, yeti);
+	        yetiEnding(skier, yeti, image);
 	        count += 1;
 	        doLotsOfTimes(count);
 	      }

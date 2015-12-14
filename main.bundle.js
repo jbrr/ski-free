@@ -79,22 +79,27 @@
 	  }
 	};
 
-	var start = function start(skier, yeti, obstacles, skierImg, obstaclesImg) {
+	var start = function start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed) {
 	  requestAnimationFrame(function gameLoop() {
 	    if (stopped === false) {
 	      ctx.clearRect(0, 0, canvas.width, canvas.height);
 	      skier.draw(skierImg);
-	      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg);
+	      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
 	      reportCollisions(obstacles, skier);
 	      yetiEnding(skier, yeti, skierImg);
 	      stopper(skier, yeti);
+	      scoreBoard(skier);
 	      requestAnimationFrame(gameLoop);
 	    }
 	  });
 	};
 
+	function scoreBoard(skier) {
+	  $('#score-board').html('<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'm</p></div>');
+	}
+
 	function init() {
-	  document.addEventListener("keydown", function (event) {
+	  document.addEventListener('keydown', function (event) {
 	    keyPressed(event, skier);
 	  }, false);
 	  var yeti = new Yeti({ canvas: canvas, context: ctx });
@@ -104,14 +109,17 @@
 	  skierImg.src = 'images/sprites.png';
 	  var obstaclesImg = new Image();
 	  obstaclesImg.src = 'images/skifree-objects.png';
-	  start(skier, yeti, obstacles, skierImg, obstaclesImg);
+	  var increasedSpeed = 0;
+	  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed);
 	  stopped = false;
 	  displayDivs('starter', 'none');
 	  displayDivs('game-over', 'none');
+	  displayDivs('score-board', 'inline');
 	}
 
 	function gameOver(scores) {
 	  displayDivs('game-over', 'inline');
+	  displayDivs('score-board', 'none');
 	  $('#top-scores').html("");
 	  for (var i = 0; i < scores.length; i++) {
 	    $('#top-scores').append('<li>' + scores[i] + '</li>');
@@ -124,6 +132,7 @@
 	function freshGame() {
 	  displayDivs('starter', 'inline');
 	  displayDivs('game-over', 'none');
+	  displayDivs('score-board', 'none');
 	  document.getElementById('start-button').onclick = function () {
 	    init();
 	  };
@@ -9483,14 +9492,14 @@
 	var Rock = __webpack_require__(10);
 	var drawObstacles = __webpack_require__(11);
 
-	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg) {
-	  if (Math.random() > 0.98) {
+	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed) {
+	  if (Math.random() > 0.96 - increasedSpeed / 100) {
 	    obstacles.push(new Tree({ canvas: canvas, context: ctx }));
 	  }
-	  if (Math.random() > 0.98) {
+	  if (Math.random() > 0.96 - increasedSpeed / 100) {
 	    obstacles.push(new Rock({ canvas: canvas, context: ctx }));
 	  }
-	  drawObstacles(obstacles, skier, obstaclesImg);
+	  drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed);
 	};
 
 	module.exports = obstacleGenerator;
@@ -9510,8 +9519,8 @@
 	  this.context = options.context;
 	}
 
-	Tree.prototype.go = function (obstaclesImg) {
-	  this.context.drawImage(obstaclesImg, 0, 28, 30, 34, this.x, this.y--, this.width, this.height);
+	Tree.prototype.go = function (obstaclesImg, increasedSpeed) {
+	  this.context.drawImage(obstaclesImg, 0, 28, 30, 34, this.x, this.y -= 3.5 + increasedSpeed, this.width, this.height);
 	  return this;
 	};
 
@@ -9537,8 +9546,8 @@
 	  this.context = options.context;
 	}
 
-	Rock.prototype.go = function (obstaclesImg) {
-	  this.context.drawImage(obstaclesImg, 30, 52, 23, 11, this.x, this.y--, this.width, this.height);
+	Rock.prototype.go = function (obstaclesImg, increasedSpeed) {
+	  this.context.drawImage(obstaclesImg, 30, 52, 23, 11, this.x, this.y -= 3.5 + increasedSpeed, this.width, this.height);
 	  return this;
 	};
 
@@ -9555,11 +9564,12 @@
 
 	"use strict";
 
-	var drawObstacles = function drawObstacles(obstacles, skier, obstaclesImg) {
+	var drawObstacles = function drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed) {
 	  for (var i = 0; i < obstacles.length; i++) {
 	    if (skier.crashed === false) {
-	      obstacles[i].go(obstaclesImg);
-	      skier.distance += 0.3;
+	      obstacles[i].go(obstaclesImg, increasedSpeed);
+	      increasedSpeed += 0.02;
+	      skier.distance += 0.05 + increasedSpeed / 450;
 	    } else {
 	      obstacles[i].stop(obstaclesImg);
 	    }
@@ -9575,7 +9585,7 @@
 	"use strict";
 
 	var yetiEnding = function yetiEnding(skier, yeti, skierImg) {
-	  if (skier.distance > 4000 && Math.random() > 0.995) {
+	  if (skier.distance > 15000 && Math.random() > 0.9995) {
 	    yeti.aggressive = true;
 	  }
 

@@ -1,10 +1,10 @@
-var yetiEnding = function(skier, yeti) {
+var yetiEnding = function(skier, yeti, skierImg) {
   if (skier.distance > 4000 && Math.random() > 0.995) {
     yeti.aggressive = true;
   }
 
   if (yeti.aggressive === true) {
-    yeti.attack(skier);
+    yeti.attack(skier, skierImg);
   }
 };
 

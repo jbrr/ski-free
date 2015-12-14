@@ -11,9 +11,9 @@ Yeti.prototype.attack = function(skier, skierImg) {
   this.context.drawImage(
     skierImg,
     0,
-    112,
+    113,
     32,
-    43,
+    41,
     this.x,
     this.y,
     this.height,

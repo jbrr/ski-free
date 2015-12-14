@@ -13,8 +13,20 @@ var scores = [];
 
 function keyPressed(event, skier) {
   if (event.keyCode === 37) {
+    skier.turningLeft = true;
     skier.moveLeft();
   } else if (event.keyCode === 39) {
+    skier.turningRight = true;
+    skier.moveRight();
+  }
+}
+
+function keyReleased(event, skier) {
+  if (event.keyCode === 37) {
+    skier.turningLeft = false;
+    skier.moveLeft();
+  } else if (event.keyCode === 39) {
+    skier.turningRight = false;
     skier.moveRight();
   }
 }
@@ -23,7 +35,7 @@ var stopper = function(skier, yeti) {
   if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
     skier.lives = 0;
   }
-  if (skier.lives === 0) {
+  if (skier.lives <= 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
     topScores(skier, scores);
@@ -35,7 +47,7 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      skier.draw(skierImg);
+      skier.draw(skierImg, skier);
       obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
@@ -55,6 +67,9 @@ function scoreBoard(skier) {
 function init() {
   document.addEventListener('keydown', function(event) {
     keyPressed(event, skier);
+  }, false);
+  document.addEventListener('keyup', function(event) {
+    keyReleased(event, skier);
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });

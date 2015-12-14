@@ -2,6 +2,7 @@ const $ = require('jquery');
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
+var topScores = require('./top-scores');
 var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
 
@@ -25,8 +26,7 @@ var stopper = function(skier, yeti) {
   if (skier.lives <= 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
-    scores.push(Math.floor(skier.distance));
-    console.log('score amount: ' + scores.length);
+    topScores(skier, scores);
     gameOver(scores);
   }
 };

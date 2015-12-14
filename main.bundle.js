@@ -107,7 +107,7 @@
 	};
 
 	function scoreBoard(skier) {
-	  $('#score-board').html('<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'm</p></div>');
+	  $('#score-board').html('<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'cm</p></div>');
 	}
 
 	function init() {

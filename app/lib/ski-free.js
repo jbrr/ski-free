@@ -6,6 +6,7 @@ var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
 var KeyEvents = require('./key-events');
 var topScores = require('./top-scores');
+var domManipulation = require('./dom-manipulation');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
@@ -21,7 +22,7 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
       stopper(skier, yeti);
-      scoreBoard(skier);
+      domManipulation.scoreBoard(skier);
       requestAnimationFrame(gameLoop);
     }
   });
@@ -44,24 +45,19 @@ function init() {
   var increasedSpeed = 0;
   start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed);
   stopped = false;
-  displayDivs('starter', 'none');
-  displayDivs('game-over', 'none');
-  displayDivs('score-board', 'inline');
+  domManipulation.displayDivs('starter', 'none');
+  domManipulation.displayDivs('game-over', 'none');
+  domManipulation.displayDivs('score-board', 'inline');
 }
 
 function freshGame() {
-  displayDivs('starter', 'inline');
-  displayDivs('game-over', 'none');
-  displayDivs('score-board', 'none');
+  domManipulation.displayDivs('starter', 'inline');
+  domManipulation.displayDivs('game-over', 'none');
+  domManipulation.displayDivs('score-board', 'none');
   document.getElementById('start-button').onclick = function(){
     init();
   };
 }
-
-function displayDivs(div, style) {
-  document.getElementById(div).style.display = style;
-}
-
 
 var stopper = function(skier, yeti) {
   if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
@@ -75,15 +71,9 @@ var stopper = function(skier, yeti) {
   }
 };
 
-function scoreBoard(skier) {
-  $('#score-board').html(
-    '<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'cm</p></div>'
-  );
-}
-
 function gameOver(scores) {
-  displayDivs('game-over', 'inline');
-  displayDivs('score-board', 'none');
+  domManipulation.displayDivs('game-over', 'inline');
+  domManipulation.displayDivs('score-board', 'none');
   $('#top-scores').html("");
   for (var i = 0; i < scores.length; i++) {
     $('#top-scores').append(

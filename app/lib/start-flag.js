@@ -1,5 +1,5 @@
 function StartFlag(options) {
-  this.x = options.canvas.width/2 - 90;
+  this.x = options.canvas.width/2;
   this.y = 200;
   this.width = 42;
   this.height = 26;
@@ -13,11 +13,24 @@ StartFlag.prototype.draw = function(obstaclesImg) {
     103,
     42,
     26,
-    this.x,
+    this.x - 90,
     this.y -= 3,
     42,
     27
   );
+
+  this.context.drawImage(
+    obstaclesImg,
+    0,
+    135,
+    42,
+    26,
+    this.x + 70,
+    this.y,
+    42,
+    27
+  );
+
   return this;
 };
 

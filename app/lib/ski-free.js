@@ -2,6 +2,7 @@ const $ = require('jquery');
 var Skier = require('./skier');
 var reportCollisions = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
+var StartFlag = require('./start-flag');
 var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
 var KeyEvents = require('./key-events');
@@ -13,11 +14,12 @@ var ctx = canvas.getContext('2d');
 var stopped = false;
 var scores = [];
 
-var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed) {
+var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag) {
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       skier.draw(skierImg, skier);
+      flag.draw(obstaclesImg);
       obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
@@ -37,13 +39,14 @@ function init() {
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });
+  var flag = new StartFlag({ canvas: canvas, context: ctx });
   var obstacles = [];
   var skierImg = new Image();
   skierImg.src = 'images/sprites.png';
   var obstaclesImg = new Image();
   obstaclesImg.src = 'images/skifree-objects.png';
   var increasedSpeed = 0;
-  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed);
+  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag);
   stopped = false;
   domManipulation.displayDivs('starter', 'none');
   domManipulation.displayDivs('game-over', 'none');

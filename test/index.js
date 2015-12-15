@@ -9,3 +9,4 @@ require('./draw-obstacles-test');
 require('./yeti-test');
 require('./yeti-ending-test');
 require('./top-scores-test');
+require('./start-flag-test');

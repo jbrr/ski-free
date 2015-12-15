@@ -5,31 +5,13 @@ var obstacleGenerator = require('./obstacle-generator');
 var topScores = require('./top-scores');
 var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
+var KeyEvents = require('./key-events');
 
 var canvas = document.getElementById('skifree');
 var ctx = canvas.getContext('2d');
 var stopped = false;
 var scores = [];
 
-function keyPressed(event, skier) {
-  if (event.keyCode === 37) {
-    skier.turningLeft = true;
-    skier.moveLeft();
-  } else if (event.keyCode === 39) {
-    skier.turningRight = true;
-    skier.moveRight();
-  }
-}
-
-function keyReleased(event, skier) {
-  if (event.keyCode === 37) {
-    skier.turningLeft = false;
-    skier.moveLeft();
-  } else if (event.keyCode === 39) {
-    skier.turningRight = false;
-    skier.moveRight();
-  }
-}
 
 var stopper = function(skier, yeti) {
   if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
@@ -66,10 +48,10 @@ function scoreBoard(skier) {
 
 function init() {
   document.addEventListener('keydown', function(event) {
-    keyPressed(event, skier);
+    KeyEvents.keyPressed(event, skier);
   }, false);
   document.addEventListener('keyup', function(event) {
-    keyReleased(event, skier);
+    KeyEvents.keyReleased(event, skier);
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });

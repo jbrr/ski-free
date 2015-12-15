@@ -14,7 +14,7 @@ StartFlag.prototype.draw = function(obstaclesImg) {
     42,
     26,
     this.x,
-    this.y -= 2.5,
+    this.y -= 3,
     42,
     27
   );

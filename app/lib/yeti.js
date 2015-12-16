@@ -9,66 +9,44 @@ function Yeti(options) {
 }
 
 Yeti.prototype.attack = function(skier, skierImg) {
-  this.position += 1;
-  if (this.position > 16) {
-    return this.position = 0;
-  }
-
+  posYeti(this);
   var direction = skier.x - this.x;
 
   if (this.position < 8 && direction > 0) {
-    this.context.drawImage(
-      skierImg,
-      64,
-      113,
-      25,
-      41,
-      this.x,
-      this.y,
-      this.height,
-      this.width
-    );
-  } else if (this.position > 8 && direction > 0){
-    this.context.drawImage(
-      skierImg,
-      90,
-      113,
-      32,
-      41,
-      this.x,
-      this.y,
-      this.height,
-      this.width
-    );
-  } else if (this.position < 8 && direction < 0){
-    this.context.drawImage(
-      skierImg,
-      64,
-      159,
-      32,
-      41,
-      this.x,
-      this.y,
-      this.height,
-      this.width
-    );
+    yetiRunning(64, 113, 25, this, skierImg);
+  } else if (this.position > 8 && direction > 0) {
+    yetiRunning(90, 113, 32, this, skierImg);
+  } else if (this.position < 8 && direction < 0) {
+    yetiRunning(64, 159, 25, this, skierImg);
   } else {
-    this.context.drawImage(
-      skierImg,
-      90,
-      159,
-      32,
-      41,
-      this.x,
-      this.y,
-      this.height,
-      this.width
-    );
+    yetiRunning(90, 159, 32, this, skierImg);
   }
+
   this.rotation = Math.atan2(skier.y - this.y, skier.x - this.x);
   this.x += Math.cos(this.rotation);
   this.y += Math.sin(this.rotation);
   return this;
 };
+
+function posYeti(yeti) {
+  yeti.position += 1;
+  if (yeti.position > 16) {
+    return yeti.position = 0;
+  }
+}
+
+function yetiRunning(posx, posy, width, yeti, skierImg) {
+  yeti.context.drawImage(
+  skierImg,
+  posx,
+  posy,
+  width,
+  41,
+  yeti.x,
+  yeti.y,
+  yeti.height,
+  yeti.width
+  );
+}
 
 module.exports = Yeti;

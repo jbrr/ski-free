@@ -23,11 +23,11 @@ Yeti.prototype.attack = function(skier, skierImg) {
 
 Yeti.prototype.eat = function(skier, skierImg) {
   eatingYeti(this);
-  if (this.eating < 10) { yetiEating(this, 122, 34, skierImg); }
-  else if (this.eating < 20) { yetiEating(this, 156, 31, skierImg); }
-  else if (this.eating < 30) { yetiEating(this, 187, 31, skierImg); }
-  else if (this.eating < 40) { yetiEating(this, 219, 25, skierImg); }
-  else { yetiEating(this, 243, 26, skierImg); }
+  if (this.eating < 10) { yetiAction(122, 112, 34, 42, this, skierImg); }
+  else if (this.eating < 20) { yetiAction(156, 112, 31, 42, this, skierImg); }
+  else if (this.eating < 30) { yetiAction(187, 112, 31, 42, this, skierImg); }
+  else if (this.eating < 40) { yetiAction(219, 112, 25, 42, this, skierImg); }
+  else { yetiAction(243, 112, 26, 42, this, skierImg); }
 
   return this;
 };
@@ -56,45 +56,31 @@ function drawYeti(yeti, direction, skierImg) {
 
 function moveRight(yeti, skierImg) {
   if (yeti.position < 8) {
-    yetiAction(64, 113, 25, yeti, skierImg);
+    yetiAction(64, 113, 25, 41, yeti, skierImg);
   } else {
-    yetiAction(90, 113, 32, yeti, skierImg);
+    yetiAction(90, 113, 32, 41, yeti, skierImg);
   }
 }
 
 function moveLeft(yeti, skierImg) {
   if (yeti.position < 8) {
-    yetiAction(64, 159, 25, yeti, skierImg);
+    yetiAction(64, 159, 25, 41, yeti, skierImg);
   } else {
-    yetiAction(90, 159, 32, yeti, skierImg);
+    yetiAction(90, 159, 32, 41, yeti, skierImg);
   }
 }
 
-function yetiAction(posx, posy, width, yeti, skierImg) {
+function yetiAction(posx, posy, width, height, yeti, skierImg) {
   yeti.context.drawImage(
   skierImg,
   posx,
   posy,
   width,
-  41,
+  height,
   yeti.x,
   yeti.y,
   yeti.width,
   yeti.height
-  );
-}
-
-function yetiEating(yeti, posx, width, skierImg) {
-  yeti.context.drawImage(
-    skierImg,
-    posx,
-    112,
-    width,
-    42,
-    yeti.x,
-    yeti.y,
-    yeti.width,
-    yeti.height
   );
 }
 

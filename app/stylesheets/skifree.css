@@ -108,7 +108,7 @@ body:before {
   text-align: center;
 }
 
-#game-over h1 {
+#game-over-header {
   margin-top: 50px;
   font-size: 50px;
   color: white;
@@ -116,6 +116,8 @@ body:before {
 }
 
 #score-header {
+  color: white;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
   font-size: 40px;
   border-bottom: solid white 2px;
 }

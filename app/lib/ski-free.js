@@ -83,7 +83,6 @@ var stopper = function(skier, yeti, skierImg) {
     setTimeout(function() { ender(skier); } , 1000);
   }
   if (skier.lives <= 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
     ender(skier);
   }

@@ -2,7 +2,6 @@ const chai = require('chai');
 const assert = chai.assert;
 
 const Yeti = require('../app/lib/yeti');
-const Skier = require('../app/lib/skier');
 var animateYeti = require('../app/lib/animate-yeti');
 
 describe('animateYeti', function() {

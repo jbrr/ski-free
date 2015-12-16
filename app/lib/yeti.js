@@ -12,15 +12,7 @@ Yeti.prototype.attack = function(skier, skierImg) {
   posYeti(this);
   var direction = skier.x - this.x;
 
-  if (this.position < 8 && direction > 0) {
-    yetiRunning(64, 113, 25, this, skierImg);
-  } else if (this.position > 8 && direction > 0) {
-    yetiRunning(90, 113, 32, this, skierImg);
-  } else if (this.position < 8 && direction < 0) {
-    yetiRunning(64, 159, 25, this, skierImg);
-  } else {
-    yetiRunning(90, 159, 32, this, skierImg);
-  }
+  drawYeti(this, direction, skierImg);
 
   this.rotation = Math.atan2(skier.y - this.y, skier.x - this.x);
   this.x += Math.cos(this.rotation);
@@ -32,6 +24,18 @@ function posYeti(yeti) {
   yeti.position += 1;
   if (yeti.position > 16) {
     return yeti.position = 0;
+  }
+}
+
+function drawYeti(yeti, direction, skierImg) {
+  if (yeti.position < 8 && direction > 0) {
+    yetiRunning(64, 113, 25, yeti, skierImg);
+  } else if (yeti.position > 8 && direction > 0) {
+    yetiRunning(90, 113, 32, yeti, skierImg);
+  } else if (yeti.position < 8 && direction < 0) {
+    yetiRunning(64, 159, 25, yeti, skierImg);
+  } else {
+    yetiRunning(90, 159, 32, yeti, skierImg);
   }
 }
 

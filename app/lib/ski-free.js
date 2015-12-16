@@ -23,7 +23,7 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
       obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
       reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
-      stopper(skier, yeti);
+      stopper(skier, yeti, skierImg);
       domManipulation.scoreBoard(skier);
       requestAnimationFrame(gameLoop);
     }
@@ -62,15 +62,29 @@ function freshGame() {
   };
 }
 
-var stopper = function(skier, yeti) {
+function deathSequence(yeti, skier, eaten, skierImg) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  yeti.eat(skier, skierImg);
+  if (yeti.eating === 50) {
+    clearInterval(eaten);
+  }
+}
+
+function ender(skier) {
+  topScores(skier, scores);
+  gameOver(scores);
+}
+
+var stopper = function(skier, yeti, skierImg) {
   if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
-    skier.lives = 0;
+    yeti.aggressive = false;
+    stopped = true;
+    var eaten = setInterval(function() { deathSequence(yeti, skier, eaten, skierImg); }, 20);
+    setTimeout(function() { ender(skier); } , 1000);
   }
   if (skier.lives <= 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopped = true;
-    topScores(skier, scores);
-    gameOver(scores);
+    ender(skier);
   }
 };
 

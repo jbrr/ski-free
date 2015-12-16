@@ -28,55 +28,29 @@ Skier.prototype.moveLeft = function() {
 
 Skier.prototype.draw = function(skierImg, skier) {
   if (skier.crashed) {
-    this.context.drawImage(
-      skierImg,
-      0,
-      78,
-      31,
-      31,
-      this.x,
-      this.y,
-      31,
-      31
-    );
+    drawSkier(skier, skierImg, 0, 78, 31, 31, 31, 31);
   } else if (skier.turningLeft) {
-    this.context.drawImage(
-      skierImg,
-      49,
-      37,
-      17,
-      34,
-      this.x,
-      this.y,
-      17,
-      34
-    );
+    drawSkier(skier, skierImg, 49, 37, 17, 34, 17, 34);
   } else if (skier.turningRight) {
-    this.context.drawImage(
-      skierImg,
-      49,
-      0,
-      17,
-      34,
-      this.x,
-      this.y,
-      17,
-      34
-    );
+    drawSkier(skier, skierImg, 49, 0, 17, 34, 17, 34);
   } else {
-    this.context.drawImage(
-      skierImg,
-      65,
-      0,
-      17,
-      34,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    drawSkier(skier, skierImg, 65, 0, 17, 34, 17, 34);
   }
   return this;
 };
+
+function drawSkier(skier, skierImg, posx, posy, widthx, widthy, width, height) {
+  skier.context.drawImage(
+    skierImg,
+    posx,
+    posy,
+    widthx,
+    widthy,
+    skier.x,
+    skier.y,
+    width,
+    height
+  );
+}
 
 module.exports = Skier;

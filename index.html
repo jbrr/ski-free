@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>Ski Free</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
   <link href='https://fonts.googleapis.com/css?family=Damion' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Oswald|Fjalla+One|Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
   <link href="app/stylesheets/skifree.css" rel="stylesheet">
 </head>
 <body>
@@ -15,7 +16,8 @@
   </div>
 
   <div id="starter">
-    <h1>Click 'Start' to begin</h1>
+    <h1>Can you escape the yeti?</h1>
+    <h3>Use the <i class="material-icons">chevron_left</i> and <i class="material-icons">chevron_right</i> arrows to maneuver your skier.</h3>
     <button id="start-button">Start</button>
   </div>
 
@@ -30,7 +32,7 @@
   </div>
 
   <div id="game-over">
-    <h1>GAME OVER</h1>
+    <h1 id="game-over-header">GAME OVER</h1>
     <div class="score-section container">
       <h1 id="score-header">Scores</h1>
       <ol class="col m8 offset-m2" id="top-scores">

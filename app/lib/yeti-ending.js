@@ -1,5 +1,5 @@
 var yetiEnding = function(skier, yeti, skierImg) {
-  if (skier.distance > 10000 && Math.random() > 0.9995) {
+  if (skier.distance > 10000 && Math.random() > 0.995) {
     yeti.aggressive = true;
   }
 

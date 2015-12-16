@@ -53,10 +53,10 @@ describe('Skier', function () {
     assert.strictEqual(skier.crashed, false);
   });
 
-  it('should have a distance', function() {
+  it('should have a default distance of 0', function() {
     let skier = new Skier({ canvas: this.canvas, context: this.context});
 
-    assert.ok(skier.distance);
+    assert.strictEqual(skier.distance, 0);
   });
 
   it('should not be turning left by default', function () {

@@ -5,7 +5,7 @@ var obstacleGenerator = require('./obstacle-generator');
 var StartFlag = require('./start-flag');
 var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
-var KeyEvents = require('./key-events');
+var keyAction = require('./key-action');
 var topScores = require('./top-scores');
 var domManipulation = require('./dom-manipulation');
 
@@ -32,10 +32,10 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
 
 function init() {
   document.addEventListener('keydown', function(event) {
-    KeyEvents.keyPressed(event, skier);
+    keyAction(event, skier, true);
   }, false);
   document.addEventListener('keyup', function(event) {
-    KeyEvents.keyReleased(event, skier);
+    keyAction(event, skier, false);
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });

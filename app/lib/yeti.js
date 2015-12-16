@@ -28,11 +28,23 @@ function posYeti(yeti) {
 }
 
 function drawYeti(yeti, direction, skierImg) {
-  if (yeti.position < 8 && direction > 0) {
+  if (direction > 0) {
+    moveRight(yeti, skierImg);
+  } else {
+    moveLeft(yeti, skierImg);
+  }
+}
+
+function moveRight(yeti, skierImg) {
+  if (yeti.position < 8) {
     yetiRunning(64, 113, 25, yeti, skierImg);
-  } else if (yeti.position > 8 && direction > 0) {
+  } else {
     yetiRunning(90, 113, 32, yeti, skierImg);
-  } else if (yeti.position < 8 && direction < 0) {
+  }
+}
+
+function moveLeft(yeti, skierImg) {
+  if (yeti.position < 8) {
     yetiRunning(64, 159, 25, yeti, skierImg);
   } else {
     yetiRunning(90, 159, 32, yeti, skierImg);

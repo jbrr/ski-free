@@ -46,95 +46,113 @@
 
 	'use strict';
 
-	var $ = __webpack_require__(1);
-	var Skier = __webpack_require__(2);
-	var reportCollisions = __webpack_require__(3);
-	var obstacleGenerator = __webpack_require__(8);
-	var topScores = __webpack_require__(12);
-	var yetiEnding = __webpack_require__(13);
-	var Yeti = __webpack_require__(14);
+	var SkiFree = __webpack_require__(1);
+
+	SkiFree.freshGame();
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var $ = __webpack_require__(2);
+	var Skier = __webpack_require__(3);
+	var reportCollisions = __webpack_require__(4);
+	var obstacleGenerator = __webpack_require__(9);
+	var StartFlag = __webpack_require__(13);
+	var yetiEnding = __webpack_require__(14);
+	var Yeti = __webpack_require__(15);
+	var KeyEvents = __webpack_require__(16);
+	var topScores = __webpack_require__(17);
+	var domManipulation = __webpack_require__(18);
 
 	var canvas = document.getElementById('skifree');
 	var ctx = canvas.getContext('2d');
 	var stopped = false;
 	var scores = [];
 
-	function keyPressed(event, skier) {
-	  if (event.keyCode === 37) {
-	    skier.turningLeft = true;
-	    skier.moveLeft();
-	  } else if (event.keyCode === 39) {
-	    skier.turningRight = true;
-	    skier.moveRight();
-	  }
-	}
-
-	function keyReleased(event, skier) {
-	  if (event.keyCode === 37) {
-	    skier.turningLeft = false;
-	    skier.moveLeft();
-	  } else if (event.keyCode === 39) {
-	    skier.turningRight = false;
-	    skier.moveRight();
-	  }
-	}
-
-	var stopper = function stopper(skier, yeti) {
-	  if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
-	    skier.lives = 0;
-	  }
-	  if (skier.lives <= 0) {
-	    ctx.clearRect(0, 0, canvas.width, canvas.height);
-	    stopped = true;
-	    topScores(skier, scores);
-	    gameOver(scores);
-	  }
-	};
-
-	var start = function start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed) {
+	var start = function start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag) {
 	  requestAnimationFrame(function gameLoop() {
 	    if (stopped === false) {
 	      ctx.clearRect(0, 0, canvas.width, canvas.height);
 	      skier.draw(skierImg, skier);
+	      flag.draw(obstaclesImg);
 	      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
 	      reportCollisions(obstacles, skier);
 	      yetiEnding(skier, yeti, skierImg);
-	      stopper(skier, yeti);
-	      scoreBoard(skier);
+	      stopper(skier, yeti, skierImg);
+	      domManipulation.scoreBoard(skier);
 	      requestAnimationFrame(gameLoop);
 	    }
 	  });
 	};
 
-	function scoreBoard(skier) {
-	  $('#score-board').html('<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'cm</p></div>');
-	}
-
 	function init() {
 	  document.addEventListener('keydown', function (event) {
-	    keyPressed(event, skier);
+	    KeyEvents.keyPressed(event, skier);
 	  }, false);
 	  document.addEventListener('keyup', function (event) {
-	    keyReleased(event, skier);
+	    KeyEvents.keyReleased(event, skier);
 	  }, false);
 	  var yeti = new Yeti({ canvas: canvas, context: ctx });
 	  var skier = new Skier({ canvas: canvas, context: ctx });
+	  var flag = new StartFlag({ canvas: canvas, context: ctx });
 	  var obstacles = [];
 	  var skierImg = new Image();
 	  skierImg.src = 'images/sprites.png';
 	  var obstaclesImg = new Image();
 	  obstaclesImg.src = 'images/skifree-objects.png';
 	  var increasedSpeed = 0;
-	  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed);
+	  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag);
 	  stopped = false;
-	  displayDivs('starter', 'none');
-	  displayDivs('game-over', 'none');
-	  displayDivs('score-board', 'inline');
+	  domManipulation.displayDivs('starter', 'none');
+	  domManipulation.displayDivs('game-over', 'none');
+	  domManipulation.displayDivs('score-board', 'inline');
 	}
 
+	function freshGame() {
+	  domManipulation.displayDivs('starter', 'inline');
+	  domManipulation.displayDivs('game-over', 'none');
+	  domManipulation.displayDivs('score-board', 'none');
+	  document.getElementById('start-button').onclick = function () {
+	    init();
+	  };
+	}
+
+	function deathSequence(yeti, skier, eaten, skierImg) {
+	  ctx.clearRect(0, 0, canvas.width, canvas.height);
+	  yeti.eat(skier, skierImg);
+	  if (yeti.eating === 50) {
+	    clearInterval(eaten);
+	  }
+	}
+
+	function ender(skier) {
+	  topScores(skier, scores);
+	  gameOver(scores);
+	}
+
+	var stopper = function stopper(skier, yeti, skierImg) {
+	  if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
+	    yeti.aggressive = false;
+	    stopped = true;
+	    var eaten = setInterval(function () {
+	      deathSequence(yeti, skier, eaten, skierImg);
+	    }, 20);
+	    setTimeout(function () {
+	      ender(skier);
+	    }, 1000);
+	  }
+	  if (skier.lives <= 0) {
+	    stopped = true;
+	    ender(skier);
+	  }
+	};
+
 	function gameOver(scores) {
-	  displayDivs('game-over', 'inline');
-	  displayDivs('score-board', 'none');
+	  domManipulation.displayDivs('game-over', 'inline');
+	  domManipulation.displayDivs('score-board', 'none');
 	  $('#top-scores').html("");
 	  for (var i = 0; i < scores.length; i++) {
 	    $('#top-scores').append('<li>' + scores[i] + '</li>');
@@ -144,23 +162,10 @@
 	  };
 	}
 
-	function freshGame() {
-	  displayDivs('starter', 'inline');
-	  displayDivs('game-over', 'none');
-	  displayDivs('score-board', 'none');
-	  document.getElementById('start-button').onclick = function () {
-	    init();
-	  };
-	}
-
-	function displayDivs(div, style) {
-	  document.getElementById(div).style.display = style;
-	}
-
-	freshGame();
+	module.exports = { freshGame: freshGame };
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9376,7 +9381,7 @@
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9411,28 +9416,22 @@
 
 	Skier.prototype.draw = function (skierImg, skier) {
 	  if (skier.crashed) {
-	    this.context.drawImage(skierImg, 0, 78, 31, 31, this.x, this.y, 31, 31);
+	    drawSkier(skier, skierImg, 0, 78, 31, 31, 31, 31);
 	  } else if (skier.turningLeft) {
-	    this.context.drawImage(skierImg, 49, 37, 17, 34, this.x, this.y, 17, 34);
+	    drawSkier(skier, skierImg, 49, 37, 17, 34, 17, 34);
 	  } else if (skier.turningRight) {
-	    this.context.drawImage(skierImg, 49, 0, 17, 34, this.x, this.y, 17, 34);
+	    drawSkier(skier, skierImg, 49, 0, 17, 34, 17, 34);
 	  } else {
-	    this.context.drawImage(skierImg, 65, 0, 17, 34, this.x, this.y, this.width, this.height);
+	    drawSkier(skier, skierImg, 65, 0, 17, 34, 17, 34);
 	  }
 	  return this;
 	};
 
+	function drawSkier(skier, skierImg, posx, posy, widthx, widthy, width, height) {
+	  skier.context.drawImage(skierImg, posx, posy, widthx, widthy, skier.x, skier.y, width, height);
+	}
+
 	module.exports = Skier;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var reportCollisions = __webpack_require__(4);
-
-	module.exports = reportCollisions;
 
 /***/ },
 /* 4 */
@@ -9440,7 +9439,17 @@
 
 	'use strict';
 
-	var isColliding = __webpack_require__(5);
+	var reportCollisions = __webpack_require__(5);
+
+	module.exports = reportCollisions;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var isColliding = __webpack_require__(6);
 
 	var reportCollisions = function reportCollisions(obstacles, skier) {
 	  for (var i = 0; i < obstacles.length; i++) {
@@ -9451,14 +9460,14 @@
 	module.exports = reportCollisions;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var arrayContainsObject = __webpack_require__(6);
+	var arrayContainsObject = __webpack_require__(7);
 	var collisionObstacles = [];
-	var hypotenuse = __webpack_require__(7);
+	var hypotenuse = __webpack_require__(8);
 
 	var isColliding = function isColliding(skier, obstacle) {
 	  if (hypotenuse(skier, obstacle) < skier.width) {
@@ -9476,7 +9485,7 @@
 	module.exports = isColliding;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9494,7 +9503,7 @@
 	module.exports = arrayContainsObject;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9506,21 +9515,21 @@
 	module.exports = hypotenuse;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Tree = __webpack_require__(9);
-	var Rock = __webpack_require__(10);
-	var drawObstacles = __webpack_require__(11);
+	var Tree = __webpack_require__(10);
+	var Rock = __webpack_require__(11);
+	var drawObstacles = __webpack_require__(12);
 
 	var obstacleGenerator = function obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed) {
 	  if (Math.random() > 0.96 - increasedSpeed / 100 && !skier.crashed) {
-	    obstacles.push(new Tree({ canvas: canvas, context: ctx }));
+	    obstacles.push(new Rock({ canvas: canvas, context: ctx }));
 	  }
 	  if (Math.random() > 0.96 - increasedSpeed / 100 && !skier.crashed) {
-	    obstacles.push(new Rock({ canvas: canvas, context: ctx }));
+	    obstacles.push(new Tree({ canvas: canvas, context: ctx }));
 	  }
 	  drawObstacles(obstacles, skier, obstaclesImg, increasedSpeed);
 	};
@@ -9528,7 +9537,7 @@
 	module.exports = obstacleGenerator;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9555,7 +9564,7 @@
 	module.exports = Tree;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9582,7 +9591,7 @@
 	module.exports = Rock;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9602,7 +9611,172 @@
 	module.exports = drawObstacles;
 
 /***/ },
-/* 12 */
+/* 13 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function StartFlag(options) {
+	  this.x = options.canvas.width / 2;
+	  this.y = 200;
+	  this.width = 42;
+	  this.height = 26;
+	  this.context = options.context;
+	}
+
+	StartFlag.prototype.draw = function (obstaclesImg) {
+	  this.context.drawImage(obstaclesImg, 260, 103, 42, 26, this.x - 90, this.y -= 3, 42, 27);
+
+	  this.context.drawImage(obstaclesImg, 0, 135, 42, 26, this.x + 70, this.y, 42, 27);
+
+	  return this;
+	};
+
+	module.exports = StartFlag;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var yetiEnding = function yetiEnding(skier, yeti, skierImg) {
+	  if (skier.distance > 10000 && Math.random() > 0.995) {
+	    yeti.aggressive = true;
+	  }
+
+	  if (yeti.aggressive) {
+	    yeti.attack(skier, skierImg);
+	  }
+	};
+
+	module.exports = yetiEnding;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function Yeti(options) {
+	  this.x = 4;
+	  this.y = 10;
+	  this.width = 32;
+	  this.height = 43;
+	  this.aggressive = false;
+	  this.context = options.context;
+	  this.position = 0;
+	  this.eating = 0;
+	}
+
+	Yeti.prototype.attack = function (skier, skierImg) {
+	  posYeti(this);
+	  var direction = skier.x - this.x;
+
+	  drawYeti(this, direction, skierImg);
+
+	  this.rotation = Math.atan2(skier.y - this.y, skier.x - this.x);
+	  this.x += Math.cos(this.rotation);
+	  this.y += Math.sin(this.rotation);
+	  return this;
+	};
+
+	Yeti.prototype.eat = function (skier, skierImg) {
+	  eatingYeti(this);
+	  if (this.eating < 10) {
+	    yetiEating(this, 122, 34, skierImg);
+	  } else if (this.eating < 20) {
+	    yetiEating(this, 156, 31, skierImg);
+	  } else if (this.eating < 30) {
+	    yetiEating(this, 187, 31, skierImg);
+	  } else if (this.eating < 40) {
+	    yetiEating(this, 219, 25, skierImg);
+	  } else {
+	    yetiEating(this, 243, 26, skierImg);
+	  }
+
+	  return this;
+	};
+
+	function posYeti(yeti) {
+	  yeti.position += 1;
+	  if (yeti.position > 16) {
+	    return yeti.position = 0;
+	  }
+	}
+
+	function eatingYeti(yeti) {
+	  yeti.eating += 1;
+	  if (yeti.eating > 50) {
+	    return yeti.eating = 0;
+	  }
+	}
+
+	function drawYeti(yeti, direction, skierImg) {
+	  if (direction > 0) {
+	    moveRight(yeti, skierImg);
+	  } else {
+	    moveLeft(yeti, skierImg);
+	  }
+	}
+
+	function moveRight(yeti, skierImg) {
+	  if (yeti.position < 8) {
+	    yetiAction(64, 113, 25, yeti, skierImg);
+	  } else {
+	    yetiAction(90, 113, 32, yeti, skierImg);
+	  }
+	}
+
+	function moveLeft(yeti, skierImg) {
+	  if (yeti.position < 8) {
+	    yetiAction(64, 159, 25, yeti, skierImg);
+	  } else {
+	    yetiAction(90, 159, 32, yeti, skierImg);
+	  }
+	}
+
+	function yetiAction(posx, posy, width, yeti, skierImg) {
+	  yeti.context.drawImage(skierImg, posx, posy, width, 41, yeti.x, yeti.y, yeti.width, yeti.height);
+	}
+
+	function yetiEating(yeti, posx, width, skierImg) {
+	  yeti.context.drawImage(skierImg, posx, 112, width, 42, yeti.x, yeti.y, yeti.width, yeti.height);
+	}
+
+	module.exports = Yeti;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function keyPressed(event, skier) {
+	  if (event.keyCode === 37) {
+	    skier.turningLeft = true;
+	    skier.moveLeft();
+	  } else if (event.keyCode === 39) {
+	    skier.turningRight = true;
+	    skier.moveRight();
+	  }
+	}
+
+	function keyReleased(event, skier) {
+	  if (event.keyCode === 37) {
+	    skier.turningLeft = false;
+	    skier.moveLeft();
+	  } else if (event.keyCode === 39) {
+	    skier.turningRight = false;
+	    skier.moveRight();
+	  }
+	}
+
+	module.exports = { keyPressed: keyPressed,
+	  keyReleased: keyReleased };
+
+/***/ },
+/* 17 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9618,47 +9792,23 @@
 	module.exports = topScores;
 
 /***/ },
-/* 13 */
-/***/ function(module, exports) {
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	var yetiEnding = function yetiEnding(skier, yeti, skierImg) {
-	  if (skier.distance > 10000 && Math.random() > 0.9995) {
-	    yeti.aggressive = true;
-	  }
+	var $ = __webpack_require__(2);
 
-	  if (yeti.aggressive) {
-	    yeti.attack(skier, skierImg);
-	  }
-	};
-
-	module.exports = yetiEnding;
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	function Yeti(options) {
-	  this.x = 4;
-	  this.y = 10;
-	  this.width = 43;
-	  this.height = 32;
-	  this.aggressive = false;
-	  this.context = options.context;
+	function displayDivs(div, style) {
+	  document.getElementById(div).style.display = style;
 	}
 
-	Yeti.prototype.attack = function (skier, skierImg) {
-	  this.context.drawImage(skierImg, 0, 113, 32, 41, this.x, this.y, this.height, this.width);
-	  this.rotation = Math.atan2(skier.y - this.y, skier.x - this.x);
-	  this.x += Math.cos(this.rotation);
-	  this.y += Math.sin(this.rotation);
-	  return this;
-	};
+	function scoreBoard(skier) {
+	  $('#score-board').html('<div><p>Lives: ' + skier.lives + '</p><p>Distance: ' + Math.floor(skier.distance) + 'cm</p></div>');
+	}
 
-	module.exports = Yeti;
+	module.exports = { displayDivs: displayDivs,
+	  scoreBoard: scoreBoard };
 
 /***/ }
 /******/ ]);

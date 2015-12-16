@@ -20,7 +20,7 @@ describe('yetiEnding', function() {
     image.src = 'images/sprites.png';
     skier.distance = 30500;
     (function doLotsOfTimes(count) {
-      if (count < 10000) {
+      if (count < 1000) {
         yetiEnding(skier, yeti, image);
         count += 1;
         doLotsOfTimes(count);

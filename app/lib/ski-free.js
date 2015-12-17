@@ -1,6 +1,6 @@
 const $ = require('jquery');
 var Skier = require('./skier');
-var reportCollisions = require('./collision');
+var Collision = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
 var StartFlag = require('./start-flag');
 var yetiEnding = require('./yeti-ending');
@@ -21,7 +21,7 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
       skier.draw(skierImg, skier);
       flag.draw(obstaclesImg);
       obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
-      reportCollisions(obstacles, skier);
+      Collision.reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
       stopper(skier, yeti, skierImg);
       domManipulation.scoreBoard(skier);
@@ -76,7 +76,7 @@ function ender(skier) {
 }
 
 var stopper = function(skier, yeti, skierImg) {
-  if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
+  if (Collision.yetiCollision(skier, yeti)) {
     yeti.aggressive = false;
     stopped = true;
     var eaten = setInterval(function() { deathSequence(yeti, skier, eaten, skierImg); }, 20);

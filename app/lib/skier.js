@@ -29,7 +29,7 @@ Skier.prototype.moveLeft = function() {
 
 Skier.prototype.draw = function(skierImg, skier) {
   if (skier.crashed) {
-    drawSkier(skier, skierImg, 0, 78, 31, 31, 31, 31);
+    drawSkier(skier, skierImg, 240, 0, 31, 31, 31, 31);
   } else if (skier.turningLeft) {
     drawSkier(skier, skierImg, 49, 37, 17, 34, 17, 34);
   } else if (skier.turningRight) {

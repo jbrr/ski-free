@@ -47,8 +47,9 @@ describe('Jump', function () {
   it('should be able to go', function() {
     let jump = new Jump({ canvas: this.canvas, context: this.context });
     var increasedSpeed = 0;
+    var speedBoost = 0;
     var originalY = jump.y;
-    jump.go(this.image, increasedSpeed);
+    jump.go(this.image, increasedSpeed, speedBoost);
 
     assert.strictEqual(jump.y, originalY - (3.5 + increasedSpeed));
   });

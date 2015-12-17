@@ -32,4 +32,6 @@ function jump(skier) {
   }, 2000);
 }
 
-module.exports = isColliding;
+module.exports = { isColliding: isColliding,
+                   crashed: crashed,
+                   jump: jump };

@@ -6,6 +6,7 @@ function Skier(options) {
   this.maxWidth = options.canvas.width;
   this.context = options.context;
   this.lives = 5;
+  this.jumping = false;
   this.crashed = false;
   this.distance = 0;
   this.turningLeft = false;
@@ -28,11 +29,13 @@ Skier.prototype.moveLeft = function() {
 
 Skier.prototype.draw = function(skierImg, skier) {
   if (skier.crashed) {
-    drawSkier(skier, skierImg, 0, 78, 31, 31, 31, 31);
+    drawSkier(skier, skierImg, 240, 0, 31, 31, 31, 31);
   } else if (skier.turningLeft) {
     drawSkier(skier, skierImg, 49, 37, 17, 34, 17, 34);
   } else if (skier.turningRight) {
     drawSkier(skier, skierImg, 49, 0, 17, 34, 17, 34);
+  } else if (skier.jumping) {
+    drawSkier(skier, skierImg, 84, 0, 32, 34, 32, 34);
   } else {
     drawSkier(skier, skierImg, 65, 0, 17, 34, 17, 34);
   }

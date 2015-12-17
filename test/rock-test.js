@@ -48,7 +48,8 @@ describe('Rock', function () {
     var rock = new Rock({ canvas: this.canvas, context: this.context });
     var originalY = rock.y;
     var increasedSpeed = 0;
-    rock.go(this.image, increasedSpeed);
+    var speedBoost = 0;
+    rock.go(this.image, increasedSpeed, speedBoost);
 
     assert.strictEqual(rock.y, originalY - (3.5 + increasedSpeed));
   });

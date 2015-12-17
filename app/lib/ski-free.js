@@ -1,11 +1,11 @@
 const $ = require('jquery');
 var Skier = require('./skier');
-var reportCollisions = require('./collision');
+var Collision = require('./collision');
 var obstacleGenerator = require('./obstacle-generator');
 var StartFlag = require('./start-flag');
 var yetiEnding = require('./yeti-ending');
 var Yeti = require('./yeti');
-var KeyEvents = require('./key-events');
+var keyAction = require('./key-action');
 var topScores = require('./top-scores');
 var domManipulation = require('./dom-manipulation');
 
@@ -14,14 +14,14 @@ var ctx = canvas.getContext('2d');
 var stopped = false;
 var scores = [];
 
-var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag) {
+var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, speedBoost, flag) {
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      skier.draw(skierImg, skier);
       flag.draw(obstaclesImg);
-      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
-      reportCollisions(obstacles, skier);
+      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed, speedBoost);
+      skier.draw(skierImg, skier);
+      Collision.reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
       stopper(skier, yeti, skierImg);
       domManipulation.scoreBoard(skier);
@@ -32,10 +32,10 @@ var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSp
 
 function init() {
   document.addEventListener('keydown', function(event) {
-    KeyEvents.keyPressed(event, skier);
+    keyAction(event, skier, true);
   }, false);
   document.addEventListener('keyup', function(event) {
-    KeyEvents.keyReleased(event, skier);
+    keyAction(event, skier, false);
   }, false);
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });
@@ -46,7 +46,8 @@ function init() {
   var obstaclesImg = new Image();
   obstaclesImg.src = 'images/skifree-objects.png';
   var increasedSpeed = 0;
-  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag);
+  var speedBoost = 0;
+  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, speedBoost, flag);
   stopped = false;
   domManipulation.displayDivs('starter', 'none');
   domManipulation.displayDivs('game-over', 'none');
@@ -76,7 +77,7 @@ function ender(skier) {
 }
 
 var stopper = function(skier, yeti, skierImg) {
-  if (Math.round(yeti.x) === Math.round(skier.x) && Math.round(yeti.y) === Math.round(skier.y)) {
+  if (Collision.yetiCollision(skier, yeti)) {
     yeti.aggressive = false;
     stopped = true;
     var eaten = setInterval(function() { deathSequence(yeti, skier, eaten, skierImg); }, 20);

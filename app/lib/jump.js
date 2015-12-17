@@ -1,17 +1,17 @@
-function Tree(options) {
+function Jump(options) {
   this.x = Math.floor(Math.random() * options.canvas.width) + 0;
   this.y = 600;
-  this.width = 30;
-  this.height = 34;
+  this.width = 32;
+  this.height = 8;
   this.maxWidth = options.canvas.width;
   this.context = options.context;
 }
 
-Tree.prototype.go = function(obstaclesImg, increasedSpeed) {
+Jump.prototype.go = function(obstaclesImg, increasedSpeed) {
   this.context.drawImage(
     obstaclesImg,
-    0,
-    28,
+    109,
+    55,
     this.width,
     this.height,
     this.x,
@@ -22,11 +22,11 @@ Tree.prototype.go = function(obstaclesImg, increasedSpeed) {
   return this;
 };
 
-Tree.prototype.stop = function(obstaclesImg) {
+Jump.prototype.stop = function(obstaclesImg) {
   this.context.drawImage(
     obstaclesImg,
-    0,
-    28,
+    109,
+    55,
     this.width,
     this.height,
     this.x,
@@ -37,4 +37,4 @@ Tree.prototype.stop = function(obstaclesImg) {
   return this;
 };
 
-module.exports = Tree;
+module.exports = Jump;

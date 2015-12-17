@@ -7,7 +7,7 @@ function Jump(options) {
   this.context = options.context;
 }
 
-Jump.prototype.go = function(obstaclesImg, increasedSpeed) {
+Jump.prototype.go = function(obstaclesImg, increasedSpeed, speedBoost) {
   this.context.drawImage(
     obstaclesImg,
     109,
@@ -15,7 +15,7 @@ Jump.prototype.go = function(obstaclesImg, increasedSpeed) {
     this.width,
     this.height,
     this.x,
-    this.y -= (3.5 + increasedSpeed),
+    this.y -= (3.5 + increasedSpeed + speedBoost),
     this.width,
     this.height
   );

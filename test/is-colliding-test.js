@@ -26,6 +26,17 @@ describe('isColliding', function() {
     assert.strictEqual(skier.crashed, true);
   });
 
+  it('should decrement the skier\'s lives by one on collision', function() {
+    var skier = new Skier({ canvas: this.canvas, context: this.context });
+    var obstacle = new Tree({ canvas: this.canvas, context: this.context });
+    skier.x = 50; skier.y = 50;
+    obstacle.x = 50; obstacle.y = 50;
+    var originalLives = skier.lives;
+    isColliding(skier, obstacle);
+
+    assert.isBelow(skier.lives, originalLives);
+  });
+
   it('should report if there is no collision', function() {
     var skier = new Skier({ canvas: this.canvas, context: this.context });
     var obstacle = new Tree({ canvas: this.canvas, context: this.context });

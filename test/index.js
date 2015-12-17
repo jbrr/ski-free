@@ -11,3 +11,5 @@ require('./yeti-ending-test');
 require('./top-scores-test');
 require('./start-flag-test');
 require('./animate-yeti-test');
+require('./yeti-collision-test');
+require('./jump-test');

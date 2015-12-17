@@ -5,7 +5,7 @@ var hypotenuse = require('./hypotenuse');
 
 var isColliding = function(skier, obstacle) {
   if (hypotenuse(skier, obstacle) < skier.width && obstacle instanceof Jump) {
-
+    jump(skier);
   } else if (hypotenuse(skier, obstacle) < skier.width && skier.jumping === false) {
     crashed(skier, obstacle, collisionObstacles);
   }

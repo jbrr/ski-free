@@ -14,12 +14,12 @@ var ctx = canvas.getContext('2d');
 var stopped = false;
 var scores = [];
 
-var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag) {
+var start = function(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, speedBoost, flag) {
   requestAnimationFrame(function gameLoop() {
     if (stopped === false) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       flag.draw(obstaclesImg);
-      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed);
+      obstacleGenerator(obstacles, skier, canvas, ctx, obstaclesImg, increasedSpeed, speedBoost);
       skier.draw(skierImg, skier);
       Collision.reportCollisions(obstacles, skier);
       yetiEnding(skier, yeti, skierImg);
@@ -46,7 +46,8 @@ function init() {
   var obstaclesImg = new Image();
   obstaclesImg.src = 'images/skifree-objects.png';
   var increasedSpeed = 0;
-  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, flag);
+  var speedBoost = 0;
+  start(skier, yeti, obstacles, skierImg, obstaclesImg, increasedSpeed, speedBoost, flag);
   stopped = false;
   domManipulation.displayDivs('starter', 'none');
   domManipulation.displayDivs('game-over', 'none');

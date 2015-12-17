@@ -34,6 +34,8 @@ Skier.prototype.draw = function(skierImg, skier) {
     drawSkier(skier, skierImg, 49, 37, 17, 34, 17, 34);
   } else if (skier.turningRight) {
     drawSkier(skier, skierImg, 49, 0, 17, 34, 17, 34);
+  } else if (skier.jumping) {
+    drawSkier(skier, skierImg, 84, 0, 32, 34, 32, 34);
   } else {
     drawSkier(skier, skierImg, 65, 0, 17, 34, 17, 34);
   }

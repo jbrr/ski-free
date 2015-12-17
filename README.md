@@ -2,6 +2,8 @@
 
 A basic version of the classic Microsoft game SkiFree made in JavaScript on an HTML5 canvas. Built by [Rose Kohn](https://github.com/roseak) and [Jeff Ruane](https://github.com/jbrr). Play the [demo here](https://jbrr.github.io/ski-free)!
 
+![](http://g.recordit.co/getBI1GreL.gif)
+
 ## To Install
 1. Clone the repo
 2. `npm install`

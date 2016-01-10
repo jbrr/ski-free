@@ -92,9 +92,10 @@ var stopper = function(skier, yeti, skierImg) {
 function gameOver(scores) {
   domManipulation.displayDivs('game-over', 'inline');
   domManipulation.displayDivs('score-board', 'none');
-  $('#top-scores').html("");
+  var $topScores = $('#top-scores');
+  $topScores.html("");
   for (var i = 0; i < scores.length; i++) {
-    $('#top-scores').append(
+    $topScores.append(
       '<li>' + scores[i] + '</li>'
     );
   }

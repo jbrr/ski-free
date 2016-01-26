@@ -146,3 +146,13 @@ body:before {
   width: 99%;
   height: 40px;
 }
+
+#touch-controls {
+  position: absolute;
+  text-align: center;
+  bottom: 12%;
+  margin: 0 auto;
+  width: 99%;
+  height: 40px;
+  color: red;
+}

@@ -37,6 +37,18 @@ function init() {
   document.addEventListener('keyup', function(event) {
     keyAction(event, skier, false);
   }, false);
+  $('#move-left').on('touchstart', function() {
+    keyAction({event: {'keyCode': 37}}, skier, true);
+  });
+  $('#move-left').on('touchend', function() {
+    keyAction({event: {'keyCode': 37}}, skier, false);
+  });
+  $('#move-right').on('touchstart', function() {
+    keyAction({event: {'keyCode': 39}}, skier, true);
+  });
+  $('#move-right').on('touchend', function() {
+    keyAction({event: {'keyCode': 39}}, skier, false);
+  });
   var yeti = new Yeti({canvas: canvas, context: ctx });
   var skier = new Skier({ canvas: canvas, context: ctx });
   var flag = new StartFlag({ canvas: canvas, context: ctx });
